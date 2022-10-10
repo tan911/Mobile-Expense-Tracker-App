@@ -3,6 +3,7 @@ import { Pressable, View, Text } from "react-native";
 import { GlobalColor } from "../../constants/color";
 import { StyleSheet } from "react-native";
 import { getFormattedDate } from "../../util/date";
+
 function ExpenseItem({ description, amount, date }) {
   function expensePressHandler() {}
   return (
@@ -15,10 +16,10 @@ function ExpenseItem({ description, amount, date }) {
           <Text style={[styles.textBase, styles.description]}>
             {description}
           </Text>
-          <Text style={styles.textBase}>{getFormattedDate(date)}</Text>
+          <Text style={styles.date}>{getFormattedDate(date)}</Text>
         </View>
-        <View styles={styles.amountContainer}>
-          <Text styles={styles.amount}>{amount.toFixed(2)}</Text>
+        <View style={styles.amountContainer}>
+          <Text style={styles.amount}>{amount.toFixed(2)}</Text>
         </View>
       </View>
     </Pressable>
@@ -31,13 +32,16 @@ const styles = StyleSheet.create({
   pressed: {
     opacity: 0.75,
   },
+
   expenseItem: {
     padding: 12,
     marginVertical: 8,
-    backgroundColor: GlobalColor.colors.slate300,
+    backgroundColor: GlobalColor.colors.neutral100,
     flexDirection: "row",
     justifyContent: "space-between",
     borderRadius: 6,
+
+    borderBottomEndRadius: 24,
     elevation: 3,
     shadowColor: "#fff",
     shadowOffset: {
@@ -47,8 +51,13 @@ const styles = StyleSheet.create({
     shadowRadius: 4,
     shadowOpacity: 0.4,
   },
+
   textBase: {
-    color: "black",
+    color: GlobalColor.colors.zinc900,
+  },
+
+  date: {
+    color: GlobalColor.colors.gray400,
   },
 
   description: {
@@ -56,16 +65,18 @@ const styles = StyleSheet.create({
     marginBottom: 4,
     fontWeight: "bold",
   },
+
   amountContainer: {
     paddingHorizontal: 12,
     paddingVertical: 4,
-    backgroundColor: "white",
+    // backgroundColor: "white",
     justifyContent: "center",
     alignItems: "center",
     borderRadius: 4,
   },
+
   amount: {
-    color: "purple",
+    color: GlobalColor.colors.emerald500,
     fontWeight: "bold",
   },
 });
