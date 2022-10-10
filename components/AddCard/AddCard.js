@@ -2,8 +2,8 @@ import { View, Text, StyleSheet } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import { AntDesign } from "@expo/vector-icons";
 
-import PrimaryButton from "../UI/PrimaryButton";
 import { GlobalColor } from "../../constants/color";
+import PrimaryButton from "../UI/PrimaryButton";
 
 const AddCard = () => {
   return (
@@ -15,10 +15,14 @@ const AddCard = () => {
         <Text style={styles.currentText}>Current Expense</Text>
         <View style={styles.figurersContainer}>
           <View>
-            <Text style={styles.figure}>$4,567,00</Text>
+            <Text style={styles.figure}>$4,567,000</Text>
           </View>
           <View>
-            <PrimaryButton>
+            <PrimaryButton
+              onPress={() => {
+                console.log("empty string");
+              }}
+            >
               <AntDesign
                 name="pluscircleo"
                 size={45}

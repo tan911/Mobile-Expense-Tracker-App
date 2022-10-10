@@ -1,5 +1,6 @@
 import { View, Text, StyleSheet } from "react-native";
 import { GlobalColor } from "../../constants/color";
+import ExpensesList from "./ExpensesList";
 
 const ExpensesSummary = ({ expenses, periodName }) => {
   const expensesSum = expenses.reduce((sum, expense) => {
@@ -27,6 +28,12 @@ const styles = StyleSheet.create({
     backgroundColor: GlobalColor.colors.slate50,
     borderRadius: 10,
     elevation: 1,
+    // shadowColor: "white",
+    // shadowOffset: {
+    //   width: 2,
+    //   height: 0,
+    // },
+    // shadowRadius: 25,
   },
 
   container: {

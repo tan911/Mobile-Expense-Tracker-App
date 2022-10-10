@@ -1,5 +1,6 @@
 import { View } from "react-native";
-
+import { GlobalColor } from "../../constants/color";
+import { StyleSheet } from "react-native";
 import ExpensesSummary from "./ExpensesSummary";
 import ExpensesList from "./ExpensesList";
 
@@ -41,3 +42,9 @@ const ExpensesOutput = ({ expenses, expensesPeriod }) => {
   );
 };
 export default ExpensesOutput;
+
+const styles = StyleSheet.create({
+  container: {
+    padding: 24,
+  },
+});

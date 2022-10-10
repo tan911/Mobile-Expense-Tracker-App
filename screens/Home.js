@@ -1,7 +1,7 @@
 import React from "react";
 import { View } from "react-native";
 import AddCard from "../components/AddCard/AddCard";
-
+import { StyleSheet } from "react-native";
 import ExpensesOutput from "../components/ExpensesOutput/ExpensesOutput";
 
 const Home = () => {
