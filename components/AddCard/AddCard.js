@@ -1,11 +1,18 @@
 import { View, Text, StyleSheet } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import { AntDesign } from "@expo/vector-icons";
+import { useNavigation } from "@react-navigation/native";
 
 import { GlobalColor } from "../../constants/color";
 import PrimaryButton from "../UI/PrimaryButton";
 
 const AddCard = () => {
+  const navigation = useNavigation();
+
+  function addExpensePressHandler() {
+    navigation.navigate("ManageExpense");
+  }
+
   return (
     <View style={styles.container}>
       <LinearGradient
@@ -18,11 +25,7 @@ const AddCard = () => {
             <Text style={styles.figure}>$4,567,000</Text>
           </View>
           <View>
-            <PrimaryButton
-              onPress={() => {
-                console.log("empty string");
-              }}
-            >
+            <PrimaryButton onPress={addExpensePressHandler}>
               <AntDesign
                 name="pluscircleo"
                 size={45}

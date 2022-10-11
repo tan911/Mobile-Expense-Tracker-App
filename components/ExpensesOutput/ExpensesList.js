@@ -1,4 +1,4 @@
-import { FlatList, View, Text, StyleSheet } from "react-native";
+import { FlatList, View, Text, StyleSheet, ScrollView } from "react-native";
 import ExpenseItem from "./ExpenseItem";
 
 import { GlobalColor } from "../../constants/color";
@@ -10,9 +10,12 @@ const renderExpenseItem = (itemData) => {
 const ExpensesList = ({ expenses }) => {
   return (
     <View style={styles.rootContaier}>
-      <Text style={styles.title}>Recent Activity</Text>
       <View>
+        <Text style={styles.title}>Recent Activity</Text>
+      </View>
+      <View style={styles.container}>
         <FlatList
+          alwaysBounceVertical={false}
           data={expenses}
           renderItem={renderExpenseItem}
           keyExtractor={(item) => item.id}
@@ -33,6 +36,11 @@ const styles = StyleSheet.create({
     borderTopStartRadius: 30,
     borderBottomEndRadius: 30,
     elevation: 1,
+    height: 1000,
+  },
+
+  container: {
+    flex: 1,
   },
 
   title: {
