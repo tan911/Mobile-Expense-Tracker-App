@@ -1,8 +1,7 @@
 import React, { useContext } from "react";
-import { View } from "react-native";
+import { View, StyleSheet } from "react-native";
 import AddCard from "../components/AddCard/AddCard";
-// import { StyleSheet } from "react-native";
-// import ExpensesOutput from "../components/ExpensesOutput/ExpensesOutput";
+import ExpensesOutput from "../components/ExpensesOutput/ExpensesOutput";
 import RecentExpenses from "./RecentExpenses";
 // import { ExpensesContext } from "../store/Expense-context";
 // import { getDateMinusDays } from "../util/date";
@@ -18,11 +17,18 @@ const Home = (expenses) => {
   // });
 
   return (
-    <View>
+    <View style={styles.rootContainer}>
       <AddCard />
-      <RecentExpenses expenses={expenses} />
+      <RecentExpenses />
+      {/* <ExpensesOutput expenses={recentExpenses} expensesPeriod="Last 7 days" /> */}
     </View>
   );
 };
 
 export default Home;
+
+const styles = StyleSheet.create({
+  rootContainer: {
+    flex: 1,
+  },
+});

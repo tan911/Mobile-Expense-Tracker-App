@@ -15,7 +15,7 @@ import AllExpenses from "./screens/AllExpenses";
 import Account from "./screens/Account";
 
 import { GlobalColor } from "./constants/color";
-import ExpenseContextProvider from "./store/Expense-context";
+import ExpenseContextProvider from "./store/expense-context";
 
 const Stack = createNativeStackNavigator();
 const BottomTabs = createBottomTabNavigator();
