@@ -8,7 +8,7 @@ import { Ionicons } from "@expo/vector-icons";
 // upper navigation
 import ManageExpense from "./screens/ManageExpense";
 
-// Lower navigation
+// Lower naviation
 import Home from "./screens/Home";
 import Statistics from "./screens/Statistics";
 import AllExpenses from "./screens/AllExpenses";
