@@ -107,9 +107,9 @@ const DUMMY_EXPENSE = [
 
 export const ExpensesContext = createContext({
   expenses: [],
-  addExpenses: ({ description, amount, date }) => {},
-  deleteExpenses: (id) => {},
-  updateExpenses: (id, { description, amount, date }) => {},
+  addExpense: ({ description, amount, date }) => {},
+  deleteExpense: (id) => {},
+  updateExpense: (id, { description, amount, date }) => {},
 });
 
 function expenseReducer(state, action) {
@@ -122,12 +122,12 @@ function expenseReducer(state, action) {
         (expense) => expense.id === action.payload.id
       );
       const updatableExpense = state[updatableExpenseIndex];
-      const upadateItem = { ...updatableExpense, ...action.payload.data };
+      const updatedItem = { ...updatableExpense, ...action.payload.data };
       const updatedExpenses = [...state];
-      updatedExpenses[updatableExpenseIndex] = upadateItem;
+      updatedExpenses[updatableExpenseIndex] = updatedItem;
       return updatedExpenses;
     case "DELETE":
-      return filter((expense) => expense.id !== action.payload);
+      return state.filter((expense) => expense.id !== action.payload);
     default:
       return state;
   }
@@ -140,12 +140,12 @@ function ExpenseContextProvider({ children }) {
     dispatch({ type: "ADD", payload: expenseData });
   }
 
-  function updateExpense(id, expenseData) {
-    dispatch({ type: "UPDATE", payload: { id: id, data: expenseData } });
-  }
-
   function deleteExpense(id) {
     dispatch({ type: "DELETE", payload: id });
+  }
+
+  function updateExpense(id, expenseData) {
+    dispatch({ type: "UPDATE", payload: { id: id, data: expenseData } });
   }
 
   const value = {
