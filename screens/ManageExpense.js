@@ -1,12 +1,15 @@
-import React, { useLayoutEffect } from "react";
+import React, { useContext, useLayoutEffect } from "react";
 import { Text, View, StyleSheet } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 
 import PrimaryButton from "../components/UI/PrimaryButton";
 import { GlobalColor } from "../constants/color";
 import Button from "../components/UI/Button";
+import { ExpensesContext } from "../store/expense-context";
 
 function ManageExpense({ route, navigation }) {
+  const expenseCtx = useContext(ExpensesContext);
+
   const editedExpenseId = route.params?.expenseId;
   const isEditing = !!editedExpenseId;
 
@@ -17,6 +20,7 @@ function ManageExpense({ route, navigation }) {
   }, [navigation, isEditing]);
 
   function deletePressHandler() {
+    expenseCtx.deleteExpense(editedExpenseId);
     navigation.goBack();
   }
 
@@ -25,6 +29,19 @@ function ManageExpense({ route, navigation }) {
   }
 
   function confirmPressHandler() {
+    if (isEditing) {
+      expenseCtx.updateExpense(editedExpenseId, {
+        descritpion: "Transportation",
+        amount: 29.99,
+        date: new Date("2022-09-19"),
+      });
+    } else {
+      expenseCtx.addExpense({
+        descritpion: "Test",
+        amount: 19.99,
+        date: new Date("2022-05-19"),
+      });
+    }
     navigation.goBack();
   }
 
