@@ -77,7 +77,7 @@ const DUMMY_EXPENSE = [
     id: "e13",
     description: "water",
     amount: 18.59,
-    date: new Date("2022-10-9"),
+    date: new Date("2022-10-10"),
   },
   {
     id: "e14",
