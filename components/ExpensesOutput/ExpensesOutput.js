@@ -4,7 +4,12 @@ import { GlobalColor } from "../../constants/color";
 import ExpensesSummary from "./ExpensesSummary";
 import ExpensesList from "./ExpensesList";
 
-const ExpensesOutput = ({ expenses, expensesPeriod, title }) => {
+const ExpensesOutput = ({ expenses, expensesPeriod, title, fallbackText }) => {
+  let content = <Text styles={styles.infoText}>{fallbackText}</Text>;
+
+  if (expenses.length > 0) {
+    content = <ExpensesList expenses={expenses} />;
+  }
   return (
     <View style={styles.rootContainer}>
       <View>
@@ -22,6 +27,7 @@ export default ExpensesOutput;
 const styles = StyleSheet.create({
   rootContainer: {
     flex: 1,
+    marginHorizontal: 15,
   },
 
   listContainer: {
@@ -41,5 +47,11 @@ const styles = StyleSheet.create({
     letterSpacing: 1,
     fontWeight: "bold",
     opacity: 0.8,
+  },
+  infoText: {
+    color: "white",
+    fontSize: 16,
+    textAlign: "center",
+    marginTop: 32,
   },
 });

@@ -1,12 +1,22 @@
 import React, { useContext } from "react";
-import { View, StyleSheet } from "react-native";
+import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
+
+import {
+  View,
+  StyleSheet,
+  Platform,
+  StatusBar,
+  SafeAreaView,
+  ScrollView,
+} from "react-native";
 import AddCard from "../components/AddCard/AddCard";
 import ExpensesOutput from "../components/ExpensesOutput/ExpensesOutput";
 import RecentExpenses from "./RecentExpenses";
 // import { ExpensesContext } from "../store/Expense-context";
 // import { getDateMinusDays } from "../util/date";
-
-const Home = (expenses) => {
+const Home = () => {
+  const tabBarHeight = useBottomTabBarHeight();
+  console.log(tabBarHeight);
   // const expensesCtx = useContext(ExpensesContext);
 
   // const recentExpenses = expensesCtx.expenses.filter((expense) => {
@@ -17,11 +27,11 @@ const Home = (expenses) => {
   // });
 
   return (
-    <View style={styles.rootContainer}>
+    <SafeAreaView style={styles.rootContainer}>
       <AddCard />
       <RecentExpenses />
       {/* <ExpensesOutput expenses={recentExpenses} expensesPeriod="Last 7 days" /> */}
-    </View>
+    </SafeAreaView>
   );
 };
 
@@ -30,5 +40,6 @@ export default Home;
 const styles = StyleSheet.create({
   rootContainer: {
     flex: 1,
+    paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
   },
 });

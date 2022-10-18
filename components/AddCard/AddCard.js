@@ -5,14 +5,19 @@ import { useNavigation } from "@react-navigation/native";
 
 import { GlobalColor } from "../../constants/color";
 import PrimaryButton from "../UI/PrimaryButton";
+import { useContext } from "react";
+import { ExpensesContext } from "../../store/expense-context";
 
 const AddCard = () => {
   const navigation = useNavigation();
 
+  const { expenses } = useContext(ExpensesContext);
+  const expensesSum = expenses.reduce((sum, expense) => {
+    return sum + expense.amount;
+  }, 0);
   function addExpensePressHandler() {
     navigation.navigate("ManageExpense");
   }
-
   return (
     <View style={styles.container}>
       <LinearGradient
@@ -22,7 +27,7 @@ const AddCard = () => {
         <Text style={styles.currentText}>Current Expense</Text>
         <View style={styles.figurersContainer}>
           <View>
-            <Text style={styles.figure}>$4,567,000</Text>
+            <Text style={styles.figure}>${expensesSum.toFixed(2)}</Text>
           </View>
           <View>
             <PrimaryButton onPress={addExpensePressHandler}>

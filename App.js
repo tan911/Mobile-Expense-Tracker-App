@@ -27,6 +27,7 @@ function ExpensesOverivew() {
       screenOptions={{
         tabBarStyle: GlobalColor.colors.slate50,
         tabBarActiveTintColor: GlobalColor.colors.blue500,
+        headerShown: false,
       }}
     >
       <BottomTabs.Screen
