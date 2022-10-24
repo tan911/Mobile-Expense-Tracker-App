@@ -16,7 +16,6 @@ import RecentExpenses from "./RecentExpenses";
 // import { getDateMinusDays } from "../util/date";
 const Home = () => {
   const tabBarHeight = useBottomTabBarHeight();
-  console.log(tabBarHeight);
   // const expensesCtx = useContext(ExpensesContext);
 
   // const recentExpenses = expensesCtx.expenses.filter((expense) => {

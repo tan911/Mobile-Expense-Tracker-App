@@ -6,6 +6,7 @@ import PrimaryButton from "../components/UI/PrimaryButton";
 import { GlobalColor } from "../constants/color";
 import Button from "../components/UI/Button";
 import { ExpensesContext } from "../store/expense-context";
+import ExpenseForm from "../components/ManageExpense/ExpenseForm";
 
 function ManageExpense({ route, navigation }) {
   const expensesCtx = useContext(ExpensesContext);
@@ -47,6 +48,7 @@ function ManageExpense({ route, navigation }) {
 
   return (
     <View style={styles.container}>
+      <ExpenseForm />
       <View style={styles.allButtonsContainer}>
         <View style={styles.buttons}>
           <Button
