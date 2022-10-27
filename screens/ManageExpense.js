@@ -48,12 +48,9 @@ function ManageExpense({ route, navigation }) {
 
   return (
     <View style={styles.container}>
-      <ExpenseForm
-        submitButtonLabel={isEditing ? "Update" : "Add"}
-        onCancel={cancelPressHandler}
-      />
-      {/* <View style={styles.allButtonsContainer}> */}
-      {/* <View style={styles.buttons}>
+      <ExpenseForm />
+      <View style={styles.allButtonsContainer}>
+        <View style={styles.buttons}>
           <Button
             style={styles.button}
             mode="cancel"
@@ -68,20 +65,20 @@ function ManageExpense({ route, navigation }) {
           >
             {isEditing ? "Update" : "Add"}
           </Button>
-        </View> */}
-      {isEditing && (
-        <View style={styles.deleteContainer}>
-          <PrimaryButton>
-            <Ionicons
-              name="trash-outline"
-              size={24}
-              color={GlobalColor.colors.rose500}
-              onPress={deletePressHandler}
-            />
-          </PrimaryButton>
         </View>
-      )}
-      {/* </View> */}
+        {isEditing && (
+          <View style={styles.deleteContainer}>
+            <PrimaryButton>
+              <Ionicons
+                name="trash-outline"
+                size={24}
+                color={GlobalColor.colors.rose500}
+                onPress={deletePressHandler}
+              />
+            </PrimaryButton>
+          </View>
+        )}
+      </View>
     </View>
   );
 }
@@ -94,26 +91,26 @@ const styles = StyleSheet.create({
     backgroundColor: GlobalColor.colors.neutral100,
   },
 
-  // allButtonsContainer: {
-  //   margin: 15,
-  //   paddingHorizontal: 18,
-  //   paddingVertical: 20,
-  //   backgroundColor: GlobalColor.colors.slate50,
-  //   borderTopStartRadius: 60,
-  //   borderTopEndRadius: 60,
-  //   elevation: 1,
-  // },
+  allButtonsContainer: {
+    margin: 15,
+    paddingHorizontal: 18,
+    paddingVertical: 20,
+    backgroundColor: GlobalColor.colors.slate50,
+    borderTopStartRadius: 60,
+    borderTopEndRadius: 60,
+    elevation: 1,
+  },
 
-  // buttons: {
-  //   flexDirection: "row",
-  //   justifyContent: "center",
-  //   alignItems: "center",
-  // },
+  buttons: {
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+  },
 
-  // button: {
-  //   minWidth: 120,
-  //   marginHorizontal: 8,
-  // },
+  button: {
+    minWidth: 120,
+    marginHorizontal: 8,
+  },
 
   deleteContainer: {
     // backgroundColor: GlobalColor.colors.neutral50,

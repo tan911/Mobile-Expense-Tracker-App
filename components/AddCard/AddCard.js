@@ -7,10 +7,11 @@ import { GlobalColor } from "../../constants/color";
 import PrimaryButton from "../UI/PrimaryButton";
 import { useContext } from "react";
 import { ExpensesContext } from "../../store/expense-context";
+import { AuthenticationContext } from "../../services/authentication.context";
 
 const AddCard = () => {
   const navigation = useNavigation();
-
+  const { onLogin } = useContext(AuthenticationContext);
   const { expenses } = useContext(ExpensesContext);
   const expensesSum = expenses.reduce((sum, expense) => {
     return sum + expense.amount;
@@ -30,7 +31,7 @@ const AddCard = () => {
             <Text style={styles.figure}>${expensesSum.toFixed(2)}</Text>
           </View>
           <View>
-            <PrimaryButton onPress={addExpensePressHandler}>
+            <PrimaryButton onPress={onLogin()}>
               <AntDesign
                 name="pluscircleo"
                 size={45}
