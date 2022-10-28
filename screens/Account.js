@@ -9,7 +9,7 @@ const Account = () => {
         title="Logout"
         onPress={() => {
           onLogout();
-          console.log("logged out");
+          console.log("logged out...");
         }}
       />
     </View>
