@@ -24,18 +24,29 @@ export const AccountCover = styled.View`
 
 export const AccountContainer = styled.View`
   background-color: rgba(255, 255, 255, 0.7);
-  padding: 12px;
+  padding: 25px;
   margin-top: 12px;
+  height: 100%;
+  align-items: center;
+  font-weight: 700;
 `;
 
 export const AuthButton = styled(Button).attrs({
   color: GlobalColor.colors.blue500,
 })`
-  padding: 12px;
+  padding: 15px;
+  display: block;
+  width: 100%;
+  border-radius: 15px;
 `;
 
+export const AuthInputWrapper = styled.View`
+width: 100%
+  border-radius: 50px;
+`;
 export const AuthInput = styled(TextInput)`
-  width: 300px;
+  width: 100%;
+  background-color: none;
 `;
 
 export const Title = styled(Text)`

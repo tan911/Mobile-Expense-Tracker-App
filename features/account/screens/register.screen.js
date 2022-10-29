@@ -13,6 +13,8 @@ import {
   Spacer,
 } from "../components/account.styles";
 import { AuthenticationContext } from "../../../services/authentication.context";
+import { StyleSheet, Text } from "react-native";
+import { GlobalColor } from "../../../constants/color";
 
 export const RegisterScreen = ({ navigation }) => {
   const [email, setEmail] = useState("");
@@ -20,62 +22,71 @@ export const RegisterScreen = ({ navigation }) => {
   const [repeatedPassword, setRepeatedPassword] = useState("");
   const { onRegister, isLoading, error } = useContext(AuthenticationContext);
   return (
-    <AccountBackground>
-      <AccountCover />
-      <Title>Meals To Go</Title>
-      <AccountContainer>
-        <AuthInput
-          label="E-mail"
-          value={email}
-          textContentType="emailAddress"
-          keyboardType="email-address"
-          autoCapitalize="none"
-          onChangeText={(u) => setEmail(u)}
-        />
-        <Spacer size="large">
-          <AuthInput
-            label="Password"
-            value={password}
-            textContentType="password"
-            secureTextEntry
-            autoCapitalize="none"
-            onChangeText={(p) => setPassword(p)}
-          />
-        </Spacer>
-        <Spacer size="large">
-          <AuthInput
-            label="Repeat Password"
-            value={repeatedPassword}
-            textContentType="password"
-            secureTextEntry
-            autoCapitalize="none"
-            onChangeText={(p) => setRepeatedPassword(p)}
-          />
-        </Spacer>
-        {error && (
-          <ErrorContainer size="large">
-            <Text variant="error">{error}</Text>
-          </ErrorContainer>
-        )}
-        <Spacer size="large">
-          {!isLoading ? (
-            <AuthButton
-              icon="email"
-              mode="contained"
-              onPress={() => onRegister(email, password, repeatedPassword)}
-            >
-              Register
-            </AuthButton>
-          ) : (
-            <ActivityIndicator animating={true} color={Colors.blue300} />
-          )}
-        </Spacer>
-      </AccountContainer>
-      <Spacer size="large">
-        <AuthButton mode="contained" onPress={() => navigation.goBack()}>
-          Back
+    <AccountContainer>
+      <AuthInput
+        label="E-mail"
+        value={email}
+        textContentType="emailAddress"
+        keyboardType="email-address"
+        autoCapitalize="none"
+        onChangeText={(u) => setEmail(u)}
+      />
+
+      <AuthInput
+        label="Password"
+        value={password}
+        textContentType="password"
+        secureTextEntry
+        autoCapitalize="none"
+        onChangeText={(p) => setPassword(p)}
+      />
+      <AuthInput
+        label="Repeat Password"
+        value={repeatedPassword}
+        textContentType="password"
+        secureTextEntry
+        autoCapitalize="none"
+        onChangeText={(p) => setRepeatedPassword(p)}
+      />
+      {error && (
+        <ErrorContainer size="large">
+          <Text variant="error">{error}</Text>
+        </ErrorContainer>
+      )}
+      {!isLoading ? (
+        <AuthButton
+          icon="email"
+          mode="contained"
+          onPress={() => onRegister(email, password, repeatedPassword)}
+        >
+          Register
         </AuthButton>
+      ) : (
+        <ActivityIndicator animating={true} color={Colors.blue300} />
+      )}
+      <Spacer style={styles.signInWrapper} size="large">
+        <Text>Already have any account?</Text>
+
+        <Text
+          style={styles.signInLink}
+          onPress={() => navigation.navigate("Login")}
+        >
+          Sign In
+        </Text>
       </Spacer>
-    </AccountBackground>
+    </AccountContainer>
   );
 };
+
+const styles = StyleSheet.create({
+  signInWrapper: {
+    flexDirection: "row",
+    justifyContent: "center",
+    marginTop: "auto",
+  },
+
+  signInLink: {
+    color: GlobalColor.colors.blue500,
+    marginLeft: 5,
+  },
+});

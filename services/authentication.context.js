@@ -3,6 +3,7 @@ import React, { useState, createContext, useEffect } from "react";
 import { auth } from "./authentication.service";
 import { loginRequest } from "./authentication.service";
 import { registerRequest } from "./authentication.service";
+
 export const AuthenticationContext = createContext();
 
 export const AuthenticationContextProvider = ({ children }) => {
@@ -49,7 +50,15 @@ export const AuthenticationContextProvider = ({ children }) => {
       return;
     }
 
-    registerRequest(email, password);
+    registerRequest(email, password)
+      .then((u) => {
+        setIsLoading(false);
+        setUser(u.user);
+      })
+      .catch((e) => {
+        setIsLoading(false);
+        setError(e.message);
+      });
   };
 
   return (
