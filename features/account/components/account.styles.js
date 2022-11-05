@@ -2,6 +2,7 @@ import styled from "styled-components/native";
 import { Text } from "react-native";
 import { Button, TextInput } from "react-native-paper";
 import { GlobalColor } from "../../../constants/color";
+import React, { useState } from "react";
 
 export const AccountBackground = styled.ImageBackground.attrs({
   source: require("../../../assets/home_bg.jpg"),
@@ -27,6 +28,7 @@ export const AccountContainer = styled.View`
   padding: 25px;
   margin-top: 12px;
   height: 100%;
+  justify-content: center;
   align-items: center;
   font-weight: 700;
 `;
@@ -34,19 +36,26 @@ export const AccountContainer = styled.View`
 export const AuthButton = styled(Button).attrs({
   color: GlobalColor.colors.blue500,
 })`
-  padding: 15px;
+  padding: 13px;
   display: block;
   width: 100%;
   border-radius: 15px;
+  margin-top: 20px;
 `;
 
 export const AuthInputWrapper = styled.View`
 width: 100%
   border-radius: 50px;
 `;
-export const AuthInput = styled(TextInput)`
+
+export const AuthInput = styled.TextInput`
+
   width: 100%;
   background-color: none;
+  margin-bottom: 20px;
+  border-radius: 20px;
+  padding: 20px;
+  background color:#dde3f4;
 `;
 
 export const Title = styled(Text)`

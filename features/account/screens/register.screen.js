@@ -22,48 +22,50 @@ export const RegisterScreen = ({ navigation }) => {
   const [repeatedPassword, setRepeatedPassword] = useState("");
   const { onRegister, isLoading, error } = useContext(AuthenticationContext);
   return (
-    <AccountContainer>
-      <AuthInput
-        label="E-mail"
-        value={email}
-        textContentType="emailAddress"
-        keyboardType="email-address"
-        autoCapitalize="none"
-        onChangeText={(u) => setEmail(u)}
-      />
+    <>
+      <AccountContainer>
+        <AuthInput
+          placeholder="E-mail"
+          value={email}
+          textContentType="emailAddress"
+          keyboardType="email-address"
+          autoCapitalize="none"
+          onChangeText={(u) => setEmail(u)}
+        />
 
-      <AuthInput
-        label="Password"
-        value={password}
-        textContentType="password"
-        secureTextEntry
-        autoCapitalize="none"
-        onChangeText={(p) => setPassword(p)}
-      />
-      <AuthInput
-        label="Repeat Password"
-        value={repeatedPassword}
-        textContentType="password"
-        secureTextEntry
-        autoCapitalize="none"
-        onChangeText={(p) => setRepeatedPassword(p)}
-      />
-      {error && (
-        <ErrorContainer size="large">
-          <Text variant="error">{error}</Text>
-        </ErrorContainer>
-      )}
-      {!isLoading ? (
-        <AuthButton
-          icon="email"
-          mode="contained"
-          onPress={() => onRegister(email, password, repeatedPassword)}
-        >
-          Register
-        </AuthButton>
-      ) : (
-        <ActivityIndicator animating={true} color={Colors.blue300} />
-      )}
+        <AuthInput
+          placeholder="Password"
+          value={password}
+          textContentType="password"
+          secureTextEntry
+          autoCapitalize="none"
+          onChangeText={(p) => setPassword(p)}
+        />
+        <AuthInput
+          placeholder="Repeat Password"
+          value={repeatedPassword}
+          textContentType="password"
+          secureTextEntry
+          autoCapitalize="none"
+          onChangeText={(p) => setRepeatedPassword(p)}
+        />
+        {error && (
+          <ErrorContainer size="large">
+            <Text variant="error">{error}</Text>
+          </ErrorContainer>
+        )}
+        {!isLoading ? (
+          <AuthButton
+            icon="email"
+            mode="contained"
+            onPress={() => onRegister(email, password, repeatedPassword)}
+          >
+            Register
+          </AuthButton>
+        ) : (
+          <ActivityIndicator animating={true} color={Colors.blue300} />
+        )}
+      </AccountContainer>
       <Spacer style={styles.signInWrapper} size="large">
         <Text>Already have any account?</Text>
 
@@ -74,7 +76,7 @@ export const RegisterScreen = ({ navigation }) => {
           Sign In
         </Text>
       </Spacer>
-    </AccountContainer>
+    </>
   );
 };
 
