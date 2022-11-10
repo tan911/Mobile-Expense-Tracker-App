@@ -1,5 +1,12 @@
 import { useState } from "react";
-import { StyleSheet, View, Text } from "react-native";
+import {
+  StyleSheet,
+  View,
+  Text,
+  TouchableWithoutFeedback,
+  Keyboard,
+} from "react-native";
+
 import Input from "./Input";
 import Button from "../UI/Button";
 import { GlobalColor } from "../../constants/color";
@@ -35,7 +42,7 @@ function ExpenseForm({ onCancel, onSubmit, submitButtonLabel, defaultValues }) {
   function submitHandler() {
     const expenseData = {
       amount: +inputs.amount.value,
-      date: ,
+      date: inputs.date.value,
       description: inputs.description.value,
     };
 
@@ -65,7 +72,7 @@ function ExpenseForm({ onCancel, onSubmit, submitButtonLabel, defaultValues }) {
     !inputs.description.isValid;
   console.log(inputs);
   return (
-    <View style={styles.expenseFormContainer}>
+    <View style={styles.expenseFormContainer} accessible={false}>
       <View style={styles.inputsRow}>
         <Input
           style={styles.rowInput}
@@ -81,10 +88,11 @@ function ExpenseForm({ onCancel, onSubmit, submitButtonLabel, defaultValues }) {
           style={styles.rowInput}
           label="Date"
           invalid={!inputs.date.isValid}
-          onChange={(newDate) => {
-            console.log(newDate);
-          }}
           dateInputConfig={{
+            onChange: (event, selectedDate) => {
+              const currentDate = getFormattedDate(selectedDate);
+              console.log(currentDate);
+            },
             value: inputs.date.value,
           }}
         />

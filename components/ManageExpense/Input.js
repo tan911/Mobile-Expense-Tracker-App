@@ -19,10 +19,10 @@ function Input({ label, invalid, style, textInputConfig, dateInputConfig }) {
         {label}
       </Text>
       {!dateInputConfig ? (
-        <TextInput style={inputStyles} {...textInputConfig} onTextChange />
+        <TextInput style={inputStyles} {...textInputConfig} />
       ) : (
         <DateTimePicker
-          style={inputStyles}
+          style={styles.dateInput}
           {...dateInputConfig}
           mode="date"
           is24Hour={true}
@@ -50,6 +50,13 @@ const styles = StyleSheet.create({
     minHeight: 100,
     textAlignVertical: "top",
     paddingVertical: 15,
+  },
+  dateInput: {
+    width: "100%",
+    backgroundColor: GlobalColor.colors.inputBackground,
+    paddingVertical: 25,
+    paddingHorizontal: 40,
+    borderRadius: 10,
   },
   invalidLabel: {
     color: GlobalColor.colors.rose500,

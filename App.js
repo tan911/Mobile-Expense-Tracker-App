@@ -1,5 +1,5 @@
 import { StatusBar } from "expo-status-bar";
-
+import { Keyboard, TouchableWithoutFeedback } from "react-native";
 // upper navigation
 import ExpenseContextProvider from "./store/expense-context";
 import { Navigation } from "./infrastructure/navigation";
@@ -10,6 +10,7 @@ export default function App() {
   return (
     <>
       <StatusBar style="dark" />
+
       <AuthenticationContextProvider>
         <ExpenseContextProvider>
           <Navigation />

@@ -1,5 +1,11 @@
 import React, { useContext, useLayoutEffect } from "react";
-import { Text, View, StyleSheet } from "react-native";
+import {
+  Text,
+  View,
+  StyleSheet,
+  Keyboard,
+  TouchableWithoutFeedback,
+} from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 
 import PrimaryButton from "../components/UI/PrimaryButton";
@@ -41,26 +47,28 @@ function ManageExpense({ route, navigation }) {
   }
 
   return (
-    <View style={styles.container}>
-      <ExpenseForm
-        submitButtonLabel={isEditing ? "Update" : "Add"}
-        onCancel={cancelPressHandler}
-        onSubmit={confirmPressHandler}
-        defaultValues={selectedExpense}
-      />
-      {isEditing && (
-        <View style={styles.deleteContainer}>
-          <PrimaryButton>
-            <Ionicons
-              name="trash-outline"
-              size={24}
-              color={GlobalColor.colors.rose500}
-              onPress={deletePressHandler}
-            />
-          </PrimaryButton>
-        </View>
-      )}
-    </View>
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+      <View style={styles.container}>
+        <ExpenseForm
+          submitButtonLabel={isEditing ? "Update" : "Add"}
+          onCancel={cancelPressHandler}
+          onSubmit={confirmPressHandler}
+          defaultValues={selectedExpense}
+        />
+        {isEditing && (
+          <View style={styles.deleteContainer}>
+            <PrimaryButton>
+              <Ionicons
+                name="trash-outline"
+                size={24}
+                color={GlobalColor.colors.rose500}
+                onPress={deletePressHandler}
+              />
+            </PrimaryButton>
+          </View>
+        )}
+      </View>
+    </TouchableWithoutFeedback>
   );
 }
 
