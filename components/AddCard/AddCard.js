@@ -47,8 +47,7 @@ export default AddCard;
 
 const styles = StyleSheet.create({
   container: {
-    marginHorizontal: 15,
-    marginVertical: 10,
+    marginBottom: 15,
     justifyContent: "center",
     alignItems: "center",
   },

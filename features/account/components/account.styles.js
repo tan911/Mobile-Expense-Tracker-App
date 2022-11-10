@@ -55,7 +55,7 @@ export const AuthInput = styled.TextInput`
   margin-bottom: 20px;
   border-radius: 20px;
   padding: 20px;
-  background color:#dde3f4;
+  background color: ${GlobalColor.colors.inputBackground};
 `;
 
 export const Title = styled(Text)`

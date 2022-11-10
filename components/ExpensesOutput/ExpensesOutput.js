@@ -17,7 +17,7 @@ const ExpensesOutput = ({ expenses, expensesPeriod, title, fallbackText }) => {
       </View>
       <View style={styles.listContainer}>
         <Text style={styles.title}>{title ? title : "Recent activity"}</Text>
-        <ExpensesList expenses={expenses} />
+        <View>{content}</View>
       </View>
     </View>
   );
@@ -26,8 +26,7 @@ export default ExpensesOutput;
 
 const styles = StyleSheet.create({
   rootContainer: {
-    flex: 1,
-    marginHorizontal: 15,
+    marginHorizontal: 5,
   },
 
   listContainer: {
@@ -35,8 +34,11 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     paddingVertical: 10,
     paddingTop: 30,
-    borderTopStartRadius: 50,
-    borderTopEndRadius: 50,
+    paddingBottom: 30,
+    borderTopStartRadius: 35,
+    borderTopEndRadius: 35,
+    borderBottomStartRadius: 30,
+    borderBottomEndRadius: 30,
     elevation: 2,
   },
 

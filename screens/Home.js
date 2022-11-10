@@ -12,7 +12,7 @@ import {
 import AddCard from "../components/AddCard/AddCard";
 import ExpensesOutput from "../components/ExpensesOutput/ExpensesOutput";
 import RecentExpenses from "./RecentExpenses";
-import { SafeArea } from "../util/safe-area.component";
+import { SafeArea, SafeAreaInnerWrapper } from "../util/safe-area.component";
 // import { ExpensesContext } from "../store/Expense-context";
 // import { getDateMinusDays } from "../util/date";
 const Home = () => {
@@ -25,14 +25,22 @@ const Home = () => {
 
   //   return expense.date > date7daysAgo;
   // });
-
   return (
     <SafeArea>
-      <AddCard />
-      <RecentExpenses />
-      {/* <ExpensesOutput expenses={recentExpenses} expensesPeriod="Last 7 days" /> */}
+      <SafeAreaInnerWrapper tabBarHeight={tabBarHeight}>
+        <AddCard />
+        <ScrollView style={styles.scroll} showsVerticalScrollIndicator={false}>
+          <RecentExpenses />
+        </ScrollView>
+      </SafeAreaInnerWrapper>
     </SafeArea>
   );
 };
 
 export default Home;
+
+const styles = StyleSheet.create({
+  scroll: {
+    marginBottom: 15,
+  },
+});

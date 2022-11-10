@@ -47,9 +47,8 @@ const styles = StyleSheet.create({
   },
 
   flatText: {
-    backgroundColor: GlobalColor.colors.slate50,
     borderRadius: 50,
-    padding: 12,
+    padding: 10,
     // elevation: 1,
     color: GlobalColor.colors.zinc900,
   },

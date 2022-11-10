@@ -1,10 +1,10 @@
-import { FlatList } from "react-native";
+import { FlatList, View } from "react-native";
 import ExpenseItem from "./ExpenseItem";
 
 // import { GlobalColor } from "../../constants/color";
 
 const renderExpenseItem = (itemData) => {
-  return <ExpenseItem {...itemData.item} />;
+  return <ExpenseItem key={itemData.id} {...itemData} />;
 };
 
 const ExpensesList = ({ expenses }) => {
@@ -14,12 +14,15 @@ const ExpensesList = ({ expenses }) => {
     //     <Text style={styles.title}>Recent Activity</Text>
     //   </View>
     //   <View style={styles.container}>
-    <FlatList
-      // alwaysBounceVertical={false}
-      data={expenses}
-      renderItem={renderExpenseItem}
-      keyExtractor={(item) => item.id}
-    />
+
+    // <FlatList
+    //   // alwaysBounceVertical={false}
+    //   scrollEnabled={false}
+    //   data={expenses}
+    //   renderItem={renderExpenseItem}
+    //   keyExtractor={(item) => item.id}
+    // />
+    <>{expenses.map((item) => renderExpenseItem(item))}</>
     //   </View>
     // </View>
   );

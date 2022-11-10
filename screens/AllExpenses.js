@@ -1,21 +1,31 @@
 import { useContext } from "react";
 
-import { View, StyleSheet, Platform, StatusBar } from "react-native";
+import {
+  View,
+  StyleSheet,
+  Platform,
+  StatusBar,
+  ScrollView,
+} from "react-native";
 import ExpensesOutput from "../components/ExpensesOutput/ExpensesOutput";
 import { ExpensesContext } from "../store/expense-context";
-import { SafeArea } from "../util/safe-area.component";
+import { SafeArea, SafeAreaInnerWrapper } from "../util/safe-area.component";
 
 function AllExpenses() {
   const expensesCtx = useContext(ExpensesContext);
 
   return (
     <SafeArea>
-      <ExpensesOutput
-        expenses={expensesCtx.expenses}
-        expensesPeriod="total"
-        title="All expenses"
-        fallbackText="You have no recorded expenses"
-      />
+      <SafeAreaInnerWrapper>
+        <ScrollView>
+          <ExpensesOutput
+            expenses={expensesCtx.expenses}
+            expensesPeriod="Total"
+            title="All expenses"
+            fallbackText="You have no recorded expenses"
+          />
+        </ScrollView>
+      </SafeAreaInnerWrapper>
     </SafeArea>
   );
 }

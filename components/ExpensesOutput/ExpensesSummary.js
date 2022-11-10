@@ -24,7 +24,6 @@ const styles = StyleSheet.create({
   rootContainer: {
     paddingVertical: 10,
     paddingHorizontal: 15,
-    marginHorizontal: 5,
     marginBottom: 15,
     backgroundColor: GlobalColor.colors.slate50,
     borderRadius: 10,

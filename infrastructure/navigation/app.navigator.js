@@ -10,12 +10,14 @@ import Account from "../../screens/Account";
 
 import { GlobalColor } from "../../constants/color";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import {
+  createBottomTabNavigator,
+  useBottomTabBarHeight,
+} from "@react-navigation/bottom-tabs";
 import { Ionicons } from "@expo/vector-icons";
 
 const Stack = createNativeStackNavigator();
 const BottomTabs = createBottomTabNavigator();
-
 // for the bottoms tabs navigation
 function ExpensesOverivew() {
   return (
