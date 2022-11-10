@@ -1,7 +1,9 @@
 import { StyleSheet, Text, TextInput, View } from "react-native";
 import { GlobalColor } from "../../constants/color";
+import DateTimePicker from "@react-native-community/datetimepicker";
+import { useState } from "react";
 
-function Input({ label, invalid, style, textInputConfig }) {
+function Input({ label, invalid, style, textInputConfig, dateInputConfig }) {
   let inputStyles = [styles.input];
 
   if (textInputConfig && textInputConfig.multiline) {
@@ -16,7 +18,16 @@ function Input({ label, invalid, style, textInputConfig }) {
       <Text style={[styles.label, invalid && styles.invalidLabel]}>
         {label}
       </Text>
-      <TextInput style={inputStyles} {...textInputConfig} />
+      {!dateInputConfig ? (
+        <TextInput style={inputStyles} {...textInputConfig} onTextChange />
+      ) : (
+        <DateTimePicker
+          style={inputStyles}
+          {...dateInputConfig}
+          mode="date"
+          is24Hour={true}
+        />
+      )}
     </View>
   );
 }

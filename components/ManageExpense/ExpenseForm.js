@@ -12,7 +12,9 @@ function ExpenseForm({ onCancel, onSubmit, submitButtonLabel, defaultValues }) {
       isValid: true,
     },
     date: {
-      value: defaultValues ? getFormattedDate(defaultValues.date) : "",
+      value: defaultValues
+        ? new Date(getFormattedDate(defaultValues.date))
+        : new Date(),
       isValid: true,
     },
     description: {
@@ -33,7 +35,7 @@ function ExpenseForm({ onCancel, onSubmit, submitButtonLabel, defaultValues }) {
   function submitHandler() {
     const expenseData = {
       amount: +inputs.amount.value,
-      date: new Date(inputs.date.value),
+      date: ,
       description: inputs.description.value,
     };
 
@@ -61,7 +63,7 @@ function ExpenseForm({ onCancel, onSubmit, submitButtonLabel, defaultValues }) {
     !inputs.amount.isValid ||
     !inputs.date.isValid ||
     !inputs.description.isValid;
-
+  console.log(inputs);
   return (
     <View style={styles.expenseFormContainer}>
       <View style={styles.inputsRow}>
@@ -79,11 +81,10 @@ function ExpenseForm({ onCancel, onSubmit, submitButtonLabel, defaultValues }) {
           style={styles.rowInput}
           label="Date"
           invalid={!inputs.date.isValid}
-          textInputConfig={{
-            placeholder: "YYYY-MM-DD",
-            maxLength: 10,
-            keyboardType: "date",
-            onChangeText: inputChangedHandler.bind(this, "date"),
+          onChange={(newDate) => {
+            console.log(newDate);
+          }}
+          dateInputConfig={{
             value: inputs.date.value,
           }}
         />

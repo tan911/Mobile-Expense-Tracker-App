@@ -153,7 +153,6 @@ function ExpenseContextProvider({ children }) {
   function updateExpense(id, expenseData) {
     dispatch({ type: "UPDATE", payload: { id: id, data: expenseData } });
   }
-
   const value = {
     expenses: expensesState,
     addExpense: addExpense,
