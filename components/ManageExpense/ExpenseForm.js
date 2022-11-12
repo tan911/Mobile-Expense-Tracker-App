@@ -11,6 +11,7 @@ import Input from "./Input";
 import Button from "../UI/Button";
 import { GlobalColor } from "../../constants/color";
 import { getFormattedDate } from "../../util/date";
+import DateTimePicker from "@react-native-community/datetimepicker";
 
 const DateToggle = styled.Button``;
 function ExpenseForm({ onCancel, onSubmit, submitButtonLabel, defaultValues }) {
@@ -20,9 +21,7 @@ function ExpenseForm({ onCancel, onSubmit, submitButtonLabel, defaultValues }) {
       isValid: true,
     },
     date: {
-      value: defaultValues
-        ? new Date(getFormattedDate(defaultValues.date))
-        : new Date(),
+      value: defaultValues ? defaultValues.date : "",
       isValid: true,
     },
     description: {
@@ -37,9 +36,6 @@ function ExpenseForm({ onCancel, onSubmit, submitButtonLabel, defaultValues }) {
     console.log(show);
   };
 
-  useEffect(() => {
-    console.log(show);
-  }, [show]);
   function inputChangedHandler(inputIdentifier, enteredValue) {
     setInputs((curInputs) => {
       return {
@@ -52,7 +48,7 @@ function ExpenseForm({ onCancel, onSubmit, submitButtonLabel, defaultValues }) {
   function submitHandler() {
     const expenseData = {
       amount: +inputs.amount.value,
-      date: inputs.date.value,
+      date: new Date(inputs.date.value),
       description: inputs.description.value,
     };
 
@@ -81,6 +77,7 @@ function ExpenseForm({ onCancel, onSubmit, submitButtonLabel, defaultValues }) {
     !inputs.date.isValid ||
     !inputs.description.isValid;
   console.log(inputs);
+
   return (
     <View style={styles.expenseFormContainer} accessible={false}>
       <View style={styles.inputsRow}>
@@ -94,19 +91,27 @@ function ExpenseForm({ onCancel, onSubmit, submitButtonLabel, defaultValues }) {
             value: inputs.amount.value,
           }}
         />
-        <DateToggle title="pick date" onPress={() => setShow(!show)} onBlur />
-        {show && (
-          <Input
-            style={styles.rowInput}
-            label="Date"
-            invalid={!inputs.date.isValid}
-            dateInputConfig={{
-              value: inputs.date.value,
-            }}
-          />
-        )}
+        <Input
+          style={styles.rowInput}
+          label="Date"
+          invalid={!inputs.amount.isValid}
+          textInputConfig={{
+            keyboardType: "default",
+            onChangeText: inputChangedHandler.bind(this, "date"),
+            value: inputs.date.value,
+          }}
+        />
       </View>
-
+      {show && (
+        <DateTimePicker
+          style={styles.rowInput}
+          label="Date"
+          invalid={!inputs.date.isValid}
+          value={inputs.date.value}
+          mode="date"
+          is24Hour={true}
+        />
+      )}
       <Input
         label="Description"
         invalid={!inputs.description.isValid}
@@ -142,7 +147,7 @@ const styles = StyleSheet.create({
   },
   inputsRow: {
     flexDirection: "row",
-    justifyContent: "space-between",
+    justifyContent: "space-evenly",
   },
   rowInput: {
     flex: 1,
