@@ -10,6 +10,7 @@ export const AuthenticationContextProvider = ({ children }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [user, setUser] = useState(null);
   const [error, setError] = useState(null);
+
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
       setIsLoading(true);

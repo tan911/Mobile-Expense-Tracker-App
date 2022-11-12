@@ -11,9 +11,7 @@ import Input from "./Input";
 import Button from "../UI/Button";
 import { GlobalColor } from "../../constants/color";
 import { getFormattedDate } from "../../util/date";
-import DateTimePicker from "@react-native-community/datetimepicker";
 
-const DateToggle = styled.Button``;
 function ExpenseForm({ onCancel, onSubmit, submitButtonLabel, defaultValues }) {
   const [inputs, setInputs] = useState({
     amount: {
@@ -21,7 +19,7 @@ function ExpenseForm({ onCancel, onSubmit, submitButtonLabel, defaultValues }) {
       isValid: true,
     },
     date: {
-      value: defaultValues ? defaultValues.date : "",
+      value: defaultValues ? getFormattedDate(defaultValues.date) : "",
       isValid: true,
     },
     description: {
@@ -29,12 +27,6 @@ function ExpenseForm({ onCancel, onSubmit, submitButtonLabel, defaultValues }) {
       isValid: true,
     },
   });
-  const [show, setShow] = useState(false);
-
-  const dateToggled = () => {
-    setShow(!show);
-    console.log(show);
-  };
 
   function inputChangedHandler(inputIdentifier, enteredValue) {
     setInputs((curInputs) => {
@@ -76,7 +68,6 @@ function ExpenseForm({ onCancel, onSubmit, submitButtonLabel, defaultValues }) {
     !inputs.amount.isValid ||
     !inputs.date.isValid ||
     !inputs.description.isValid;
-  console.log(inputs);
 
   return (
     <View style={styles.expenseFormContainer} accessible={false}>
@@ -102,16 +93,7 @@ function ExpenseForm({ onCancel, onSubmit, submitButtonLabel, defaultValues }) {
           }}
         />
       </View>
-      {show && (
-        <DateTimePicker
-          style={styles.rowInput}
-          label="Date"
-          invalid={!inputs.date.isValid}
-          value={inputs.date.value}
-          mode="date"
-          is24Hour={true}
-        />
-      )}
+
       <Input
         label="Description"
         invalid={!inputs.description.isValid}

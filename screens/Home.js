@@ -15,6 +15,7 @@ import RecentExpenses from "./RecentExpenses";
 import { SafeArea, SafeAreaInnerWrapper } from "../util/safe-area.component";
 // import { ExpensesContext } from "../store/Expense-context";
 // import { getDateMinusDays } from "../util/date";
+
 const Home = () => {
   const tabBarHeight = useBottomTabBarHeight();
   // const expensesCtx = useContext(ExpensesContext);
