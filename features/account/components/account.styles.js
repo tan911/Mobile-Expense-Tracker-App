@@ -37,7 +37,6 @@ export const AuthButton = styled(Button).attrs({
   color: GlobalColor.colors.blue500,
 })`
   padding: 13px;
-  display: block;
   width: 100%;
   border-radius: 15px;
   margin-top: 20px;

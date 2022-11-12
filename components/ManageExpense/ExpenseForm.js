@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   StyleSheet,
   View,
@@ -6,12 +6,13 @@ import {
   TouchableWithoutFeedback,
   Keyboard,
 } from "react-native";
-
+import styled from "styled-components/native";
 import Input from "./Input";
 import Button from "../UI/Button";
 import { GlobalColor } from "../../constants/color";
 import { getFormattedDate } from "../../util/date";
 
+const DateToggle = styled.Button``;
 function ExpenseForm({ onCancel, onSubmit, submitButtonLabel, defaultValues }) {
   const [inputs, setInputs] = useState({
     amount: {
@@ -29,7 +30,16 @@ function ExpenseForm({ onCancel, onSubmit, submitButtonLabel, defaultValues }) {
       isValid: true,
     },
   });
+  const [show, setShow] = useState(false);
 
+  const dateToggled = () => {
+    setShow(!show);
+    console.log(show);
+  };
+
+  useEffect(() => {
+    console.log(show);
+  }, [show]);
   function inputChangedHandler(inputIdentifier, enteredValue) {
     setInputs((curInputs) => {
       return {
@@ -84,18 +94,17 @@ function ExpenseForm({ onCancel, onSubmit, submitButtonLabel, defaultValues }) {
             value: inputs.amount.value,
           }}
         />
-        <Input
-          style={styles.rowInput}
-          label="Date"
-          invalid={!inputs.date.isValid}
-          dateInputConfig={{
-            onChange: (event, selectedDate) => {
-              const currentDate = getFormattedDate(selectedDate);
-              console.log(currentDate);
-            },
-            value: inputs.date.value,
-          }}
-        />
+        <DateToggle title="pick date" onPress={() => setShow(!show)} onBlur />
+        {show && (
+          <Input
+            style={styles.rowInput}
+            label="Date"
+            invalid={!inputs.date.isValid}
+            dateInputConfig={{
+              value: inputs.date.value,
+            }}
+          />
+        )}
       </View>
 
       <Input
