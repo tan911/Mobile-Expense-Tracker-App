@@ -65,8 +65,8 @@ function ExpensesOverivew() {
         name="Account"
         component={Account}
         options={{
-          title: "user",
-          tabBarLabel: "User",
+          title: "Account",
+          tabBarLabel: "Account",
           tabBarIcon: ({ color, size }) => (
             <Ionicons name="person-outline" size={24} color={color} />
           ),

@@ -5,6 +5,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { LoginScreen } from "../../features/account/screens/login.screen";
 import { RegisterScreen } from "../../features/account/screens/register.screen";
 import { AuthenticationContext } from "../../services/authentication.context";
+import { LoadingScreen } from "../../screens/LoadingScreen";
 
 const Stack = createNativeStackNavigator();
 
@@ -14,7 +15,7 @@ export const AccountNavigator = () => {
   return (
     <>
       {!isAuthenticated ? (
-        <ActivityIndicator />
+        <LoadingScreen />
       ) : (
         <Stack.Navigator
           screenOptions={{

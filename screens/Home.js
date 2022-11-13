@@ -28,7 +28,7 @@ const Home = () => {
   // });
   return (
     <SafeArea>
-      <SafeAreaInnerWrapper tabBarHeight={tabBarHeight}>
+      <SafeAreaInnerWrapper>
         <AddCard />
         <ScrollView style={styles.scroll} showsVerticalScrollIndicator={false}>
           <RecentExpenses />
