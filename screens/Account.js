@@ -1,11 +1,22 @@
 import React, { useContext } from "react";
-import { Button, StatusBar, Text, View, Image, StyleSheet } from "react-native";
+import {
+  Button,
+  StatusBar,
+  Text,
+  View,
+  Image,
+  StyleSheet,
+  Pressable,
+} from "react-native";
+import SimpleLineIcons from "@expo/vector-icons/SimpleLineIcons";
+
 import { GlobalColor } from "../constants/color";
 import { AuthenticationContext } from "../services/authentication.context";
 import { SafeArea, SafeAreaInnerWrapper } from "../util/safe-area.component";
+import { AuthErrorCodes } from "firebase/auth";
 const Account = () => {
   const { onLogout, user } = useContext(AuthenticationContext);
-
+  console.log(user.currentUser);
   return (
     <View style={styles.container}>
       <View style={styles.profile}>
@@ -17,16 +28,28 @@ const Account = () => {
         />
         <View style={styles.profileTexts}>
           <Text style={styles.email}>{user.email}</Text>
-          <Text style={styles.name}>Misty Caruana</Text>
+          <Text style={styles.name}>{user.displayName}</Text>
         </View>
       </View>
-      <Button
-        title="Logout"
-        onPress={() => {
-          onLogout();
-          console.log("logged out...");
-        }}
-      />
+      <View style={styles.settingsGroup}>
+        <Text style={styles.settingsGroupTitle}>Account</Text>
+        <Pressable
+          onPress={() => {
+            onLogout();
+            console.log("logged out...");
+          }}
+        >
+          <View style={styles.settingsButton}>
+            <Text style={styles.settingsButtonTitle}>Logout</Text>
+            <SimpleLineIcons
+              style={styles.settingsButtonIcon}
+              name="logout"
+              size={20}
+            />
+          </View>
+        </Pressable>
+        <View></View>
+      </View>
     </View>
   );
 };
@@ -39,7 +62,8 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     backgroundColor: "#fff",
-    padding: 15,
+    paddingVertical: 15,
+    paddingLeft: 25,
   },
   profileLogo: {
     height: 45,
@@ -53,9 +77,34 @@ const styles = StyleSheet.create({
   email: {
     color: GlobalColor.colors.gray400,
   },
+
   name: {
     fontSize: 17,
     fontWeight: "500",
+  },
+
+  settingsGroup: {
+    margin: 25,
+  },
+  settingsGroupTitle: {
+    fontSize: 17,
+    fontWeight: "500",
+  },
+  settingsButton: {
+    flexDirection: "row",
+    paddingHorizontal: 25,
+    paddingVertical: 20,
+    marginVertical: 15,
+
+    backgroundColor: "#fff",
+    borderRadius: 12,
+  },
+  settingsButtonTitle: {
+    marginRight: "auto",
+    fontWeight: "500",
+  },
+  settingsButtonIcon: {
+    marginLeft: "auto",
   },
 });
 

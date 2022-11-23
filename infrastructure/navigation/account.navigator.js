@@ -10,11 +10,11 @@ import { LoadingScreen } from "../../screens/LoadingScreen";
 const Stack = createNativeStackNavigator();
 
 export const AccountNavigator = () => {
-  const { isAuthenticated, isLoading } = useContext(AuthenticationContext);
+  const { isAuthenticated, isLoggedOut } = useContext(AuthenticationContext);
 
   return (
     <>
-      {!isAuthenticated ? (
+      {!isAuthenticated && !isLoggedOut ? (
         <LoadingScreen />
       ) : (
         <Stack.Navigator

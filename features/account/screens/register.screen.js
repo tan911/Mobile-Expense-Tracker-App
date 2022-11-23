@@ -17,13 +17,24 @@ import { StyleSheet, Text } from "react-native";
 import { GlobalColor } from "../../../constants/color";
 
 export const RegisterScreen = ({ navigation }) => {
+  const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [repeatedPassword, setRepeatedPassword] = useState("");
   const { onRegister, isLoading, error } = useContext(AuthenticationContext);
+
   return (
     <>
       <AccountContainer>
+        <AuthInput
+          placeholder="Username"
+          value={username}
+          textContentType="username"
+          keyboardType="default"
+          autoCapitalize="none"
+          onChangeText={(u) => setUsername(u)}
+        />
+
         <AuthInput
           placeholder="E-mail"
           value={email}
@@ -58,7 +69,9 @@ export const RegisterScreen = ({ navigation }) => {
           <AuthButton
             icon="email"
             mode="contained"
-            onPress={() => onRegister(email, password, repeatedPassword)}
+            onPress={() =>
+              onRegister(email, password, repeatedPassword, username)
+            }
           >
             Register
           </AuthButton>

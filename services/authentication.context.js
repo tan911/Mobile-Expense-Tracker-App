@@ -1,4 +1,4 @@
-import { onAuthStateChanged, signOut } from "firebase/auth";
+import { onAuthStateChanged, signOut, updateProfile } from "firebase/auth";
 import React, { useState, createContext, useEffect } from "react";
 import { auth } from "./authentication.service";
 import { loginRequest } from "./authentication.service";
@@ -8,6 +8,7 @@ export const AuthenticationContext = createContext();
 
 export const AuthenticationContextProvider = ({ children }) => {
   const [isLoading, setIsLoading] = useState(false);
+  const [isLoggedOut, setIsLoggedOut] = useState(false);
   const [user, setUser] = useState(null);
   const [error, setError] = useState(null);
 
@@ -19,6 +20,7 @@ export const AuthenticationContextProvider = ({ children }) => {
         setIsLoading(false);
       } else {
         setIsLoading(false);
+        setIsLoggedOut(true);
       }
     });
   }, []);
@@ -28,7 +30,6 @@ export const AuthenticationContextProvider = ({ children }) => {
     loginRequest(email, password)
       .then((u) => {
         setUser(u);
-        console.log(u.email);
         setIsLoading(false);
       })
       .catch((e) => {
@@ -43,7 +44,7 @@ export const AuthenticationContextProvider = ({ children }) => {
     signOut(auth);
   };
 
-  const onRegister = (email, password, repeatedPassword) => {
+  const onRegister = (email, password, repeatedPassword, username) => {
     setIsLoading(true);
 
     if (password !== repeatedPassword) {
@@ -55,6 +56,18 @@ export const AuthenticationContextProvider = ({ children }) => {
       .then((u) => {
         setIsLoading(false);
         setUser(u.user);
+      })
+      .then(() => {
+        updateProfile(auth.currentUser, {
+          displayName: username,
+          photoURL: "https://example.com/jane-q-user/profile.jpg",
+        })
+          .then(() => {
+            console.log("Profile updated successfuly...");
+          })
+          .catch((error) => {
+            console.log(error.message);
+          });
       })
       .catch((e) => {
         setIsLoading(false);
@@ -68,6 +81,7 @@ export const AuthenticationContextProvider = ({ children }) => {
         isAuthenticated: !!user,
         user,
         isLoading,
+        isLoggedOut,
         error,
         onLogin,
         onRegister,
