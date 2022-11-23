@@ -15,6 +15,8 @@ import {
   useBottomTabBarHeight,
 } from "@react-navigation/bottom-tabs";
 import { Ionicons } from "@expo/vector-icons";
+import { Button } from "react-native-paper";
+import { Text, TouchableHighlight, View } from "react-native";
 
 const Stack = createNativeStackNavigator();
 const BottomTabs = createBottomTabNavigator();
@@ -70,6 +72,7 @@ function ExpensesOverivew() {
           tabBarIcon: ({ color, size }) => (
             <Ionicons name="person-outline" size={24} color={color} />
           ),
+          headerShown: true,
         }}
       />
     </BottomTabs.Navigator>
