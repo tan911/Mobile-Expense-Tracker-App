@@ -26,7 +26,7 @@ const AddCard = () => {
         <Text style={styles.currentText}>Current Expense</Text>
         <View style={styles.figurersContainer}>
           <View>
-            <Text style={styles.figure}>${expensesSum.toFixed(2)}</Text>
+            <Text style={styles.figure}>₱{expensesSum.toFixed(2)}</Text>
           </View>
           <View>
             <PrimaryButton onPress={addExpensePressHandler}>

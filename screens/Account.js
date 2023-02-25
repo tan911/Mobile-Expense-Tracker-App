@@ -16,7 +16,7 @@ import { SafeArea, SafeAreaInnerWrapper } from "../util/safe-area.component";
 import { AuthErrorCodes } from "firebase/auth";
 const Account = () => {
   const { onLogout, user } = useContext(AuthenticationContext);
-  console.log(user.currentUser);
+  console.log("current user:", user.displayName);
   return (
     <View style={styles.container}>
       <View style={styles.profile}>

@@ -1,4 +1,4 @@
-import React, { useContext, useLayoutEffect } from "react";
+import React, { useContext, useLayoutEffect, useState } from "react";
 import {
   Text,
   View,
@@ -13,8 +13,14 @@ import { GlobalColor } from "../constants/color";
 import Button from "../components/UI/Button";
 import { ExpensesContext } from "../store/expense-context";
 import ExpenseForm from "../components/ManageExpense/ExpenseForm";
+import { deleteExpense, storeExpense, updateExpense } from "../util/http";
+import LoadingOverlay from "../components/UI/LoadingOverlay";
+import ErrorOverlay from "../components/UI/ErrorOverlay";
 
 function ManageExpense({ route, navigation }) {
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState(null);
+
   const expensesCtx = useContext(ExpensesContext);
   const editedExpenseId = route.params?.expenseId;
   const isEditing = !!editedExpenseId;
@@ -32,18 +38,39 @@ function ManageExpense({ route, navigation }) {
     navigation.goBack();
   }
 
-  function confirmPressHandler(expenseData) {
-    if (isEditing) {
-      expensesCtx.updateExpense(editedExpenseId, expenseData);
-    } else {
-      expensesCtx.addExpense(expenseData);
+  async function confirmPressHandler(expenseData) {
+    setIsLoading(true);
+    try {
+      if (isEditing) {
+        expensesCtx.updateExpense(editedExpenseId, expenseData);
+        await updateExpense(editedExpenseId, expenseData);
+      } else {
+        const id = await storeExpense(expenseData);
+        expensesCtx.addExpense({ ...expenseData, id });
+      }
+    } catch (error) {
+      setError(error);
     }
+
     navigation.goBack();
+    setIsLoading(false);
+  }
+
+  if (error && !isLoading) {
+    return <ErrorOverlay message={error} />;
   }
 
   function deletePressHandler() {
+    setIsLoading(true);
+
+    deleteExpense(editedExpenseId);
     expensesCtx.deleteExpense(editedExpenseId);
     navigation.goBack();
+    setIsLoading(false);
+  }
+
+  if (isLoading) {
+    return <LoadingOverlay />;
   }
 
   return (
