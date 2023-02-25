@@ -6,11 +6,11 @@ Repository for the app which will calculate the user expenses.
 
 ## Set up 
 ```
-    // using npm
+    // npm
      $ npm install 
      $ npm start
 
-     // using yarn
+     // yarn
      $ yarn install 
      $ yarn start
 ```
