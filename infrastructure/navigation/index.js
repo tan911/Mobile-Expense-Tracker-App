@@ -10,10 +10,10 @@ import { LoadingScreen } from "../../screens/LoadingScreen";
 import { View } from "react-native";
 
 export const Navigation = () => {
-  const { isAuthenticated } = useContext(AuthenticationContext);
+  // const { isAuthenticated } = useContext(AuthenticationContext);
   return (
     <NavigationContainer>
-      {isAuthenticated ? <AppNavigator /> : <AccountNavigator />}
+      <AppNavigator />
     </NavigationContainer>
   );
 };
