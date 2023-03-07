@@ -1,29 +1,26 @@
-import React, { useContext } from "react";
-import {
-  Button,
-  StatusBar,
-  Text,
-  View,
-  Image,
-  StyleSheet,
-  Pressable,
-} from "react-native";
-import SimpleLineIcons from "@expo/vector-icons/SimpleLineIcons";
+import React, { useContext } from 'react';
+import { Button, StatusBar, Text, View, Image, StyleSheet, Pressable } from 'react-native';
+import SimpleLineIcons from '@expo/vector-icons/SimpleLineIcons';
 
-import { GlobalColor } from "../constants/color";
-import { AuthenticationContext } from "../services/authentication.context";
-import { SafeArea, SafeAreaInnerWrapper } from "../util/safe-area.component";
-import { AuthErrorCodes } from "firebase/auth";
+import { GlobalColor } from '../constants/color';
+import { AuthenticationContext } from '../services/authentication.context';
+import { SafeArea, SafeAreaInnerWrapper } from '../util/safe-area.component';
+import { AuthErrorCodes } from 'firebase/auth';
+import { AuthContext } from '../store/auth-context';
 const Account = () => {
-  const { onLogout, user } = useContext(AuthenticationContext);
-  console.log("current user:", user.displayName);
+  // const { onLogout, user } = useContext(AuthenticationContext);
+  const { logout } = useContext(AuthContext);
+  const user = {
+    email: 'dekeji1@gmail.com',
+    displayName: 'This is dummy data',
+  };
   return (
     <View style={styles.container}>
-      <View style={styles.profile}>
+      {/* <View style={styles.profile}>
         <Image
           style={styles.profileLogo}
           source={{
-            uri: "https://cdn-icons-png.flaticon.com/512/2354/2354573.png",
+            uri: 'https://cdn-icons-png.flaticon.com/512/2354/2354573.png',
           }}
         />
         <View style={styles.profileTexts}>
@@ -35,21 +32,17 @@ const Account = () => {
         <Text style={styles.settingsGroupTitle}>Account</Text>
         <Pressable
           onPress={() => {
-            onLogout();
-            console.log("logged out...");
+            logout();
+            console.log('logged out...');
           }}
         >
           <View style={styles.settingsButton}>
             <Text style={styles.settingsButtonTitle}>Logout</Text>
-            <SimpleLineIcons
-              style={styles.settingsButtonIcon}
-              name="logout"
-              size={20}
-            />
+            <SimpleLineIcons style={styles.settingsButtonIcon} name="logout" size={20} />
           </View>
         </Pressable>
-        <View></View>
-      </View>
+      </View> */}
+      <Text>Settings page</Text>
     </View>
   );
 };
@@ -59,19 +52,19 @@ const styles = StyleSheet.create({
     margin: 0,
   },
   profile: {
-    flexDirection: "row",
-    alignItems: "center",
-    backgroundColor: "#fff",
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#fff',
     paddingVertical: 15,
     paddingLeft: 25,
   },
   profileLogo: {
     height: 45,
     width: 45,
-    borderRadius: "50%",
+    borderRadius: '50%',
   },
   profileTexts: {
-    height: "100%",
+    height: '100%',
     marginLeft: 10,
   },
   email: {
@@ -80,7 +73,7 @@ const styles = StyleSheet.create({
 
   name: {
     fontSize: 17,
-    fontWeight: "500",
+    fontWeight: '500',
   },
 
   settingsGroup: {
@@ -88,23 +81,23 @@ const styles = StyleSheet.create({
   },
   settingsGroupTitle: {
     fontSize: 17,
-    fontWeight: "500",
+    fontWeight: '500',
   },
   settingsButton: {
-    flexDirection: "row",
+    flexDirection: 'row',
     paddingHorizontal: 25,
     paddingVertical: 20,
     marginVertical: 15,
 
-    backgroundColor: "#fff",
+    backgroundColor: '#fff',
     borderRadius: 12,
   },
   settingsButtonTitle: {
-    marginRight: "auto",
-    fontWeight: "500",
+    marginRight: 'auto',
+    fontWeight: '500',
   },
   settingsButtonIcon: {
-    marginLeft: "auto",
+    marginLeft: 'auto',
   },
 });
 

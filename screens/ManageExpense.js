@@ -16,6 +16,7 @@ import ExpenseForm from "../components/ManageExpense/ExpenseForm";
 import { deleteExpense, storeExpense, updateExpense } from "../util/http";
 import LoadingOverlay from "../components/UI/LoadingOverlay";
 import ErrorOverlay from "../components/UI/ErrorOverlay";
+import { createErrorHandler } from "expo/build/errors/ExpoErrorManager";
 
 function ManageExpense({ route, navigation }) {
   const [isLoading, setIsLoading] = useState(false);
@@ -48,25 +49,30 @@ function ManageExpense({ route, navigation }) {
         const id = await storeExpense(expenseData);
         expensesCtx.addExpense({ ...expenseData, id });
       }
+      navigation.goBack();
+    } catch (error) {
+      setError("Could not save data- please try again never");
+      setIsLoading(false);
+    }
+  }
+
+  async function deletePressHandler() {
+    setIsLoading(true);
+    try {
+      await deleteExpense(editedExpenseId);
+      expensesCtx.deleteExpense(editedExpenseId);
+      navigation.goBack();
     } catch (error) {
       setError(error);
+      setIsLoading(false);
     }
-
-    navigation.goBack();
-    setIsLoading(false);
   }
 
+  function errorHandler() {
+    setError(null);
+  }
   if (error && !isLoading) {
-    return <ErrorOverlay message={error} />;
-  }
-
-  function deletePressHandler() {
-    setIsLoading(true);
-
-    deleteExpense(editedExpenseId);
-    expensesCtx.deleteExpense(editedExpenseId);
-    navigation.goBack();
-    setIsLoading(false);
+    return <ErrorOverlay message={error} onConfirm={createErrorHandler} />;
   }
 
   if (isLoading) {
