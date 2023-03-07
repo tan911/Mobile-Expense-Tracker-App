@@ -7,7 +7,10 @@
     "android": "expo start --android",
     "ios": "expo start --ios",
     "web": "expo start --web",
-    "format": "prettier . --write"
+    "lint": "eslint --ext .js,.jsx ./",
+    "lint:fix": "eslint --fix .js,.jsx ./",
+    "format": "prettier . --write",
+    "format:check": "prettier . --check"
   },
   "dependencies": {
     "@react-native-async-storage/async-storage": "^1.17.11",
@@ -30,10 +33,19 @@
     "react-native-paper": "^4.12.5",
     "react-native-safe-area-context": "4.3.1",
     "react-native-screens": "~3.15.0",
+    "react-native-svg": "12.3.0",
     "styled-components": "^5.3.6"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",
+    "@babel/eslint-parser": "^7.19.1",
+    "eslint": "^8.35.0",
+    "eslint-config-airbnb": "^19.0.4",
+    "eslint-plugin-import": "^2.27.5",
+    "eslint-plugin-jsx-a11y": "^6.7.1",
+    "eslint-plugin-react": "^7.32.2",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "eslint-plugin-react-native": "^4.0.0",
     "prettier": "^2.8.4"
   },
   "private": true
