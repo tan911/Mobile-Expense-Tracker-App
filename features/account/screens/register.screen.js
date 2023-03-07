@@ -88,7 +88,7 @@ export const RegisterScreen = ({ navigation }) => {
             onChangeText={(p) => setRepeatedPassword(p)}
           />
           <View>
-            <Text>{error}</Text>
+            <Text>{error && error}</Text>
           </View>
           <AuthButton icon="email" mode="contained" onPress={() => signupHandler(email, password)}>
             Register
