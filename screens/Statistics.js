@@ -1,75 +1,247 @@
-import React from "react";
-import { Text, View, Dimensions } from "react-native";
-import { SafeArea, SafeAreaInnerWrapper } from "../util/safe-area.component";
-import { PieChart } from 'react-native-chart-kit'
+import React from 'react';
+import { Text, View, StyleSheet } from 'react-native';
+import { SafeArea, SafeAreaInnerWrapper } from '../util/safe-area.component';
+import { PieChart } from 'react-native-svg-charts';
+// import { Text } from 'react-native-svg';
+
+import { GlobalColor } from '../constants/color';
 
 const data = [
   {
-    name: "Seoul",
-    population: 21500000,
-    color: "rgba(131, 167, 234, 1)",
-    legendFontColor: "#7F7F7F",
-    legendFontSize: 15
+    id: 'e1',
+    description: 'A pair of shoes',
+    amount: 59.99,
+    date: new Date('2021-12-19'),
   },
   {
-    name: "Toronto",
-    population: 2800000,
-    color: "#F00",
-    legendFontColor: "#7F7F7F",
-    legendFontSize: 15
+    id: 'e2',
+    description: 'A pair of trousers',
+    amount: 89.29,
+    date: new Date('2022-01-05'),
   },
   {
-    name: "Beijing",
-    population: 527612,
-    color: "red",
-    legendFontColor: "#7F7F7F",
-    legendFontSize: 15
+    id: 'e3',
+    description: 'Some bananas',
+    amount: 5.99,
+    date: new Date('2021-12-01'),
   },
   {
-    name: "New York",
-    population: 8538000,
-    color: "#ffffff",
-    legendFontColor: "#7F7F7F",
-    legendFontSize: 15
+    id: 'e4',
+    description: 'A book',
+    amount: 14.99,
+    date: new Date('2022-02-19'),
   },
   {
-    name: "Moscow",
-    population: 11920000,
-    color: "rgb(0, 0, 255)",
-    legendFontColor: "#7F7F7F",
-    legendFontSize: 15
-  }
+    id: 'e5',
+    description: 'Another book',
+    amount: 18.59,
+    date: new Date('2022-02-18'),
+  },
+  {
+    id: 'e6',
+    description: 'A pair of trousers',
+    amount: 89.29,
+    date: new Date('2022-01-05'),
+  },
+  {
+    id: 'e7',
+    description: 'Some bananas',
+    amount: 5.99,
+    date: new Date('2021-12-01'),
+  },
+  {
+    id: 'e8',
+    description: 'A book',
+    amount: 5.99,
+    date: new Date('2022-02-19'),
+  },
+  {
+    id: 'e9',
+    description: 'Another book',
+    amount: 18.59,
+    date: new Date('2022-02-18'),
+  },
+  {
+    id: 'e10',
+    description: 'Lazada',
+    amount: 18.59,
+    date: new Date('2022-10-12'),
+  },
+  {
+    id: 'e11',
+    description: 'nike',
+    amount: 5.59,
+    date: new Date('2022-10-11'),
+  },
+  {
+    id: 'e12',
+    description: 'Shoppe',
+    amount: 18.59,
+    date: new Date('2022-10-10'),
+  },
+  {
+    id: 'e13',
+    description: 'water',
+    amount: 5.59,
+    date: new Date('2022-10-10'),
+  },
+  {
+    id: 'e14',
+    description: 'amazon',
+    amount: 150.59,
+    date: new Date('2022-10-10'),
+  },
+  {
+    id: 'e15',
+    description: 'rice',
+    amount: 5.59,
+    date: new Date('2022-10-10'),
+  },
+  {
+    id: 'e16',
+    description: 'bill',
+    amount: 18.59,
+    date: new Date('2022-10-10'),
+  },
+  {
+    id: 'e17',
+    description: 'house bill',
+    amount: 19.59,
+    date: new Date('2022-10-10'),
+  },
+  {
+    id: 'e18',
+    description: 'food',
+    amount: 5.59,
+    date: new Date('2022-10-11'),
+  },
 ];
 
-const chartConfig = {
-  backgroundGradientFrom: "#1E2923",
-  backgroundGradientFromOpacity: 0,
-  backgroundGradientTo: "#08130D",
-  backgroundGradientToOpacity: 0.5,
-  color: (opacity = 1) => `rgba(26, 255, 146, ${opacity})`,
-  strokeWidth: 2, // optional, default 3
-  barPercentage: 0.5,
-  useShadowColorFromDataset: false // optional
+const definedColors = (amount) => {
+  if (amount >= 50) {
+    return GlobalColor.colors.blue500;
+  } else {
+    return GlobalColor.colors.slate300;
+  }
+};
+
+const pieData = data.map(({ id, amount }) => ({
+  value: amount,
+  svg: {
+    fill: definedColors(amount),
+  },
+  key: id,
+}));
+
+const totalExpense = data.map(({ amount }) => amount).reduce((acc, curr) => acc + curr);
+const averageExpense = data.map(({ amount }) => amount >= 50).reduce((acc, curr) => acc + curr);
+const lowExpense = data.map(({ amount }) => amount < 50).reduce((acc, curr) => acc + curr);
+
+const labelData = () => {
+  const _avgPercentage = (averageExpense / totalExpense) * 100;
+  const _lowPercentage = (lowExpense / totalExpense) * 100;
+
+  const avgColorSquare = (avg) => {
+    if (avg) {
+      return (
+        <View style={{ height: 10, width: 10, backgroundColor: GlobalColor.colors.blue500 }}></View>
+      );
+    } else {
+      return (
+        <View
+          style={{ height: 10, width: 10, backgroundColor: GlobalColor.colors.slate300 }}
+        ></View>
+      );
+    }
+  };
+
+  return (
+    <View style={styles.percentageExpenseRootContainer}>
+      <View style={styles.percentageDirection}>
+        <View style={styles.columnContainer}>
+          <View style={styles.column}>
+            {avgColorSquare(_avgPercentage)}
+            <Text style={styles.columnText}>{parseFloat(_avgPercentage).toFixed(2)}</Text>
+          </View>
+          <Text>Average Expense</Text>
+        </View>
+        <View>
+          <View style={styles.column}>
+            {avgColorSquare()}
+            <Text style={styles.columnText}>{parseFloat(_lowPercentage).toFixed(2)}</Text>
+          </View>
+          <Text>Low Expense</Text>
+        </View>
+      </View>
+    </View>
+  );
 };
 
 const Statistics = () => {
   return (
     <SafeArea>
       <SafeAreaInnerWrapper>
-      <PieChart
-          data={data}
-          width={Dimensions.get('window').width}
-          height={220}
-          chartConfig={chartConfig}
-          accessor={"population"}
-          backgroundColor={"transparent"}
-          paddingLeft={"15"}
-          center={[10, 50]}
-          absolute
-      />
+        <Text style={styles.title}>Manage Your expenses</Text>
+        <View style={styles.pieContainer}>
+          <View style={styles.titleExpenseContainer}>
+            <Text style={styles.titleExpenses}>Expenses</Text>
+            <Text style={styles.titleExpensesDate}>1 Feb 2023 - 28 Feb 2023</Text>
+          </View>
+          <PieChart style={{ height: 200 }} data={pieData} innerRadius={'50%'} animate />
+          <View>{labelData()}</View>
+        </View>
       </SafeAreaInnerWrapper>
     </SafeArea>
   );
 };
 
 export default Statistics;
+
+const styles = StyleSheet.create({
+  title: {
+    width: '50%',
+    fontSize: 25,
+    fontWeight: 'bold',
+    marginBottom: 10,
+  },
+  pieContainer: {
+    borderWidth: 0.8,
+    borderColor: GlobalColor.colors.gray400,
+    borderRadius: 24,
+    paddingVertical: 10,
+    paddingHorizontal: 15,
+  },
+  titleExpenseContainer: {
+    marginBottom: 25,
+    marginTop: 5,
+    paddingLeft: 10,
+  },
+  titleExpenses: {
+    fontSize: 20,
+    fontWeight: 'bold',
+  },
+  titleExpensesDate: {
+    color: GlobalColor.colors.gray400,
+  },
+  percentageExpenseRootContainer: {
+    marginVertical: 30,
+    marginLeft: 'auto',
+    marginRight: 'auto',
+  },
+  percentageDirection: {
+    flexDirection: 'row',
+    alignContent: 'center',
+    alignItems: 'center',
+  },
+  columnContainer: {
+    marginRight: 50,
+  },
+  column: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  columnText: {
+    marginLeft: 10,
+  },
+});
