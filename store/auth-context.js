@@ -12,6 +12,7 @@ export const AuthContext = createContext({
 
 export function AuthContextProvider({ children }) {
   const [authToken, setAuthToken] = useState();
+
   const [isLoggedOut, setIsLoggedOut] = useState();
   const [user, setUser] = useState({});
 

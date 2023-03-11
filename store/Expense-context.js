@@ -1,4 +1,6 @@
-import { createContext, useReducer } from 'react';
+import { createContext, useEffect, useContext, useReducer, useState } from 'react';
+import { fetchExpenses } from '../util/http';
+import { AuthContext } from './auth-context';
 
 const DUMMY_EXPENSE = [
   {
@@ -142,14 +144,33 @@ function expenseReducer(state, action) {
 }
 
 function ExpenseContextProvider({ children }) {
-  const [expensesState, dispatch] = useReducer(expenseReducer, DUMMY_EXPENSE);
+  const [isFetching, setIsFetching] = useState(true);
+  const [error, setError] = useState(null);
+  const { token } = useContext(AuthContext);
 
-  function addExpense(expenseData) {
-    dispatch({ type: 'ADD', payload: expenseData });
-  }
+  useEffect(() => {
+    async function getExpenses() {
+      setIsFetching(true);
+      try {
+        const expenses = await fetchExpenses();
+        setExpenses(expenses);
+        setIsFetching(false);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+
+    getExpenses();
+  }, []);
+
+  const [expensesState, dispatch] = useReducer(expenseReducer, []);
   function setExpenses(expenses) {
     dispatch({ type: 'SET', payload: expenses });
   }
+  function addExpense(expenseData) {
+    dispatch({ type: 'ADD', payload: expenseData });
+  }
+
   function deleteExpense(id) {
     dispatch({ type: 'DELETE', payload: id });
   }
@@ -163,6 +184,10 @@ function ExpenseContextProvider({ children }) {
     deleteExpense: deleteExpense,
     updateExpense: updateExpense,
     setExpenses: setExpenses,
+    error,
+    isFetching,
+    setIsFetching,
+    setError,
   };
 
   return <ExpensesContext.Provider value={value}>{children}</ExpensesContext.Provider>;

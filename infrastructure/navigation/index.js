@@ -15,7 +15,6 @@ import { authenticatte } from '../../features/account/util/auth';
 
 export const Navigation = () => {
   const authCtx = useContext(AuthContext);
-  console.log(authCtx.isAuthenticated);
   return (
     <NavigationContainer>
       {authCtx.isAuthenticated ? <AppNavigator /> : <AccountNavigator />}

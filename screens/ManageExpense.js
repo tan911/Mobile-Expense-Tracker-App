@@ -1,22 +1,16 @@
-import React, { useContext, useLayoutEffect, useState } from "react";
-import {
-  Text,
-  View,
-  StyleSheet,
-  Keyboard,
-  TouchableWithoutFeedback,
-} from "react-native";
-import { Ionicons } from "@expo/vector-icons";
+import React, { useContext, useLayoutEffect, useState } from 'react';
+import { Text, View, StyleSheet, Keyboard, TouchableWithoutFeedback } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
 
-import PrimaryButton from "../components/UI/PrimaryButton";
-import { GlobalColor } from "../constants/color";
-import Button from "../components/UI/Button";
-import { ExpensesContext } from "../store/expense-context";
-import ExpenseForm from "../components/ManageExpense/ExpenseForm";
-import { deleteExpense, storeExpense, updateExpense } from "../util/http";
-import LoadingOverlay from "../components/UI/LoadingOverlay";
-import ErrorOverlay from "../components/UI/ErrorOverlay";
-import { createErrorHandler } from "expo/build/errors/ExpoErrorManager";
+import PrimaryButton from '../components/UI/PrimaryButton';
+import { GlobalColor } from '../constants/color';
+import Button from '../components/UI/Button';
+import { ExpensesContext } from '../store/expense-context';
+import ExpenseForm from '../components/ManageExpense/ExpenseForm';
+import { deleteExpense, storeExpense, updateExpense } from '../util/http';
+import LoadingOverlay from '../components/UI/LoadingOverlay';
+import ErrorOverlay from '../components/UI/ErrorOverlay';
+import { createErrorHandler } from 'expo/build/errors/ExpoErrorManager';
 
 function ManageExpense({ route, navigation }) {
   const [isLoading, setIsLoading] = useState(false);
@@ -26,12 +20,10 @@ function ManageExpense({ route, navigation }) {
   const editedExpenseId = route.params?.expenseId;
   const isEditing = !!editedExpenseId;
 
-  const selectedExpense = expensesCtx.expenses.find(
-    (expense) => expense.id === editedExpenseId
-  );
+  const selectedExpense = expensesCtx.expenses.find((expense) => expense.id === editedExpenseId);
   useLayoutEffect(() => {
     navigation.setOptions({
-      title: isEditing ? "Edit expense" : "Add expense",
+      title: isEditing ? 'Edit expense' : 'Add expense',
     });
   }, [navigation, isEditing]);
 
@@ -51,7 +43,7 @@ function ManageExpense({ route, navigation }) {
       }
       navigation.goBack();
     } catch (error) {
-      setError("Could not save data- please try again never");
+      setError(error.response.data.error);
       setIsLoading(false);
     }
   }
@@ -83,7 +75,7 @@ function ManageExpense({ route, navigation }) {
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <View style={styles.container}>
         <ExpenseForm
-          submitButtonLabel={isEditing ? "Update" : "Add"}
+          submitButtonLabel={isEditing ? 'Update' : 'Add'}
           onCancel={cancelPressHandler}
           onSubmit={confirmPressHandler}
           defaultValues={selectedExpense}
@@ -110,7 +102,7 @@ export default ManageExpense;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "center",
+    justifyContent: 'center',
     backgroundColor: GlobalColor.colors.neutral100,
   },
 
@@ -127,7 +119,7 @@ const styles = StyleSheet.create({
   deleteContainer: {
     // backgroundColor: GlobalColor.colors.neutral50,
     // justifyContent: "center",
-    alignItems: "center",
+    alignItems: 'center',
     marginTop: 10,
     // elevation: 1,
     paddingVertical: 10,

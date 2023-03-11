@@ -13,14 +13,17 @@ import AppLoading from 'expo-app-loading';
 function Root() {
   const [isTryingLogin, setIsTryingLogin] = useState(true);
   const authCtx = useContext(AuthContext);
+
   useEffect(() => {
     async function fetchToken() {
       const storedToken = await AsyncStorage.getItem('token');
+
       if (storedToken) {
         authCtx.authenticate(storedToken);
       }
       setIsTryingLogin(false);
     }
+
     fetchToken();
   }, []);
 
@@ -34,12 +37,11 @@ export default function App() {
   return (
     <>
       <StatusBar style="dark" />
-
-      <ExpenseContextProvider>
-        <AuthContextProvider>
+      <AuthContextProvider>
+        <ExpenseContextProvider>
           <Root />
-        </AuthContextProvider>
-      </ExpenseContextProvider>
+        </ExpenseContextProvider>
+      </AuthContextProvider>
     </>
   );
 }
