@@ -68,7 +68,7 @@ function ExpensesOverivew() {
           tabBarIcon: ({ color, size }) => (
             <Ionicons name="people-outline" size={24} color={color} />
           ),
-          headerShown: true,
+          headerShown: false,
         }}
       />
       <BottomTabs.Screen

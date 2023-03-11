@@ -1,9 +1,9 @@
 import React from 'react';
-import { Text, View, StyleSheet, Dimensions } from 'react-native';
+import { Text, View, StyleSheet, Dimensions, ScrollView } from 'react-native';
 import { SafeArea, SafeAreaInnerWrapper } from '../util/safe-area.component';
 import { PieChart } from 'react-native-svg-charts';
 import { BarChart } from 'react-native-chart-kit';
-import { compareAsc, format } from 'date-fns'
+import { compareAsc, format } from 'date-fns';
 
 import { GlobalColor } from '../constants/color';
 
@@ -146,7 +146,7 @@ const chartConfig = {
 const notFormattedDate = data.map((item) => item.date);
 const sortDate = notFormattedDate.sort(compareAsc);
 const monthDate = sortDate.map((date) => {
-  return format(date, "MMM")
+  return format(date, 'MMM');
 });
 const removeDuplicatedMonth = monthDate.filter((item, pos, self) => {
   return self.indexOf(item) == pos;
@@ -156,10 +156,10 @@ const barChartData = {
   labels: removeDuplicatedMonth,
   datasets: [
     {
-      data: amount
-    }
-  ]
-}
+      data: amount,
+    },
+  ],
+};
 
 const totalExpense = data.map(({ amount }) => amount).reduce((acc, curr) => acc + curr);
 const averageExpense = data.map(({ amount }) => amount >= 50).reduce((acc, curr) => acc + curr);
@@ -208,29 +208,31 @@ const labelData = () => {
 const Statistics = () => {
   return (
     <SafeArea>
-      <SafeAreaInnerWrapper>
-        <View>
-          <Text style={styles.title}>Manage Your expenses</Text>
-          <View style={styles.pieContainer}>
-            <View style={styles.titleExpenseContainer}>
-              <Text style={styles.titleExpenses}>Expenses</Text>
-              <Text style={styles.titleExpensesDate}>1 Feb 2023 - 28 Feb 2023</Text>
+      <ScrollView>
+        <SafeAreaInnerWrapper>
+          <View>
+            <Text style={styles.title}>Manage Your expenses</Text>
+            <View style={styles.pieContainer}>
+              <View style={styles.titleExpenseContainer}>
+                <Text style={styles.titleExpenses}>Expenses</Text>
+                <Text style={styles.titleExpensesDate}>1 Feb 2023 - 28 Feb 2023</Text>
+              </View>
+              <PieChart style={{ height: 200 }} data={pieData} innerRadius={'50%'} animate />
+              <View>{labelData()}</View>
             </View>
-            <PieChart style={{ height: 200 }} data={pieData} innerRadius={'50%'} animate />
-            <View>{labelData()}</View>
+            <View style={styles.barContainer}>
+              <BarChart
+                data={barChartData}
+                width={365}
+                height={220}
+                yAxisLabel="$"
+                chartConfig={chartConfig}
+                verticalLabelRotation={30}
+              />
+            </View>
           </View>
-          <View style={styles.barContainer}>
-            <BarChart
-              data={barChartData}
-              width={365}
-              height={220}
-              yAxisLabel="$"
-              chartConfig={chartConfig}
-              verticalLabelRotation={30}
-            />
-          </View>
-        </View>
-      </SafeAreaInnerWrapper>
+        </SafeAreaInnerWrapper>
+      </ScrollView>
     </SafeArea>
   );
 };
@@ -291,5 +293,5 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 2 },
     shadowRadius: 8,
     borderWidth: 1,
-  }
+  },
 });
