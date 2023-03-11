@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Text, View, StyleSheet, Dimensions } from 'react-native';
 import { SafeArea, SafeAreaInnerWrapper } from '../util/safe-area.component';
 import { PieChart } from 'react-native-svg-charts';
 import { BarChart } from 'react-native-chart-kit';
 import { compareAsc, format } from 'date-fns'
 
+import PrimaryButton from '../components/UI/PrimaryButton';
 import { GlobalColor } from '../constants/color';
 
 const data = [
@@ -118,93 +119,120 @@ const data = [
   },
 ];
 
-const definedColors = (amount) => {
-  if (amount >= 50) {
-    return GlobalColor.colors.blue500;
-  } else {
-    return GlobalColor.colors.slate300;
-  }
-};
 
-const pieData = data.map(({ id, amount }) => ({
-  value: amount,
-  svg: {
-    fill: definedColors(amount),
-  },
-  key: id,
-}));
-
-const screenWidth = Dimensions.get('window').width;
-const chartConfig = {
-  backgroundGradientFrom: GlobalColor.colors.blue500,
-  backgroundGradientTo: GlobalColor.colors.blue500,
-  color: () => `${GlobalColor.colors.slate50}`,
-  barPercentage: 0.5,
-};
-
-const notFormattedDate = data.map((item) => item.date);
-const sortDate = notFormattedDate.sort(compareAsc);
-const monthDate = sortDate.map((date) => {
-  return format(date, "MMM")
-});
-const removeDuplicatedMonth = monthDate.filter((item, pos, self) => {
-  return self.indexOf(item) == pos;
-});
-const amount = data.map((item) => item.amount);
-const barChartData = {
-  labels: removeDuplicatedMonth,
-  datasets: [
-    {
-      data: amount
-    }
-  ]
-}
-
-const totalExpense = data.map(({ amount }) => amount).reduce((acc, curr) => acc + curr);
-const averageExpense = data.map(({ amount }) => amount >= 50).reduce((acc, curr) => acc + curr);
-const lowExpense = data.map(({ amount }) => amount < 50).reduce((acc, curr) => acc + curr);
-
-const labelData = () => {
-  const _avgPercentage = (averageExpense / totalExpense) * 100;
-  const _lowPercentage = (lowExpense / totalExpense) * 100;
-
-  const avgColorSquare = (avg) => {
-    if (avg) {
-      return (
-        <View style={{ height: 10, width: 10, backgroundColor: GlobalColor.colors.blue500 }}></View>
-      );
-    } else {
-      return (
-        <View
-          style={{ height: 10, width: 10, backgroundColor: GlobalColor.colors.slate300 }}
-        ></View>
-      );
-    }
-  };
-
-  return (
-    <View style={styles.percentageExpenseRootContainer}>
-      <View style={styles.percentageDirection}>
-        <View style={styles.columnContainer}>
-          <View style={styles.column}>
-            {avgColorSquare(_avgPercentage)}
-            <Text style={styles.columnText}>{parseFloat(_avgPercentage).toFixed(2)}</Text>
-          </View>
-          <Text>Average Expense</Text>
-        </View>
-        <View>
-          <View style={styles.column}>
-            {avgColorSquare()}
-            <Text style={styles.columnText}>{parseFloat(_lowPercentage).toFixed(2)}</Text>
-          </View>
-          <Text>Low Expense</Text>
-        </View>
-      </View>
-    </View>
-  );
-};
 
 const Statistics = () => {
+  // TODO
+  // const [buttonActive, setButtonActive] = useState(true);
+
+  // const filterByPeriodOfTimeHandler = (item) => {
+  //   setButtonActive(!buttonActive)
+  // };
+
+  //============================
+
+  const definedColors = (amount) => {
+    if (amount >= 50) {
+      return GlobalColor.colors.blue500;
+    } else {
+      return GlobalColor.colors.slate300;
+    }
+  };
+  
+  const pieData = data.map(({ id, amount }) => ({
+    value: amount,
+    svg: {
+      fill: definedColors(amount),
+    },
+    key: id,
+  }));
+  
+  const screenWidth = Dimensions.get('window').width;
+  const chartConfig = {
+    backgroundGradientFrom: GlobalColor.colors.blue500,
+    backgroundGradientTo: GlobalColor.colors.blue500,
+    color: () => `${GlobalColor.colors.slate50}`,
+    barPercentage: 0.5,
+  };
+  
+  const notFormattedDate = data.map((item) => item.date);
+  const sortDate = notFormattedDate.sort(compareAsc);
+  const monthDate = sortDate.map((date) => {
+    return format(date, "MMM")
+  });
+  const removeDuplicatedMonth = monthDate.filter((item, pos, self) => {
+    return self.indexOf(item) == pos;
+  });
+  const amount = data.map((item) => item.amount);
+  const barChartData = {
+    labels: removeDuplicatedMonth,
+    datasets: [
+      {
+        data: amount
+      }
+    ]
+  }
+  
+  const totalExpense = data.map(({ amount }) => amount).reduce((acc, curr) => acc + curr);
+  const averageExpense = data.map(({ amount }) => amount >= 50).reduce((acc, curr) => acc + curr);
+  const lowExpense = data.map(({ amount }) => amount < 50).reduce((acc, curr) => acc + curr);
+  
+  const labelData = () => {
+    const _avgPercentage = (averageExpense / totalExpense) * 100;
+    const _lowPercentage = (lowExpense / totalExpense) * 100;
+  
+    const avgColorSquare = (avg) => {
+      if (avg) {
+        return (
+          <View style={{ height: 10, width: 10, backgroundColor: GlobalColor.colors.blue500 }}></View>
+        );
+      } else {
+        return (
+          <View
+            style={{ height: 10, width: 10, backgroundColor: GlobalColor.colors.slate300 }}
+          ></View>
+        );
+      }
+    };
+  
+    return (
+      <View style={styles.percentageExpenseRootContainer}>
+        <View style={styles.percentageDirection}>
+          <View style={styles.columnContainer}>
+            <View style={styles.column}>
+              {avgColorSquare(_avgPercentage)}
+              <Text style={styles.columnText}>{parseFloat(_avgPercentage).toFixed(2)}</Text>
+            </View>
+            <Text>Average Expense</Text>
+          </View>
+          <View>
+            <View style={styles.column}>
+              {avgColorSquare()}
+              <Text style={styles.columnText}>{parseFloat(_lowPercentage).toFixed(2)}</Text>
+            </View>
+            <Text>Low Expense</Text>
+          </View>
+        </View>
+      </View>
+    );
+  };
+  
+  const filterExpense = [{ filter: 'This week' }, { filter: 'This month' }, { filter: 'This year' }];
+  const filterByPeriodOfTime = () => {
+    const renderButton = filterExpense.map((filterItem) => {
+      return (
+          <View style={{...styles.filterButton}}>
+            <PrimaryButton key={filterItem.filter}>{filterItem.filter}</PrimaryButton>
+          </View>
+      )
+    })
+  
+    return (
+      <View style={styles.filterButtonContainer}>{renderButton}</View>
+    )
+  }
+
+
   return (
     <SafeArea>
       <SafeAreaInnerWrapper>
@@ -212,20 +240,39 @@ const Statistics = () => {
           <Text style={styles.title}>Manage Your expenses</Text>
           <View style={styles.pieContainer}>
             <View style={styles.titleExpenseContainer}>
-              <Text style={styles.titleExpenses}>Expenses</Text>
-              <Text style={styles.titleExpensesDate}>1 Feb 2023 - 28 Feb 2023</Text>
+              <View>
+                <Text style={styles.titleExpenses}>Expenses</Text>
+                <Text style={styles.titleExpensesDate}>1 Feb 2023 - 28 Feb 2023</Text>
+              </View>
+              <Text style={styles.titletotalExpenses}>{`₱${parseFloat(totalExpense).toFixed(2)}`}</Text>
             </View>
-            <PieChart style={{ height: 150 }} data={pieData} innerRadius={'45%'} animate />
-            <View>{labelData()}</View>
+            <View style={styles.pieInnerContainer}>
+              <PieChart style={{ height: 100, flex: 1, marginRight: 40}} data={pieData} innerRadius={'40%'} animate />
+              <View>{labelData()}</View>
+            </View>
+          </View>
+          <View style={styles.filterButtonRootContainer}>
+            {filterByPeriodOfTime()}
+            <View style={styles.filterDataContainer}>
+              <View style={styles.filterSpendContainer}>
+                  <Text>Avg Montly spend</Text>
+                  <Text>$200.00</Text>
+              </View>
+              <View style={styles.filterSpendContainer}>
+                  <Text>Spent this month</Text>
+                  <Text>$150.00</Text>
+              </View>
+            </View>
           </View>
           <View style={styles.barContainer}>
+            <Text>Statistics</Text>
             <BarChart
               data={barChartData}
               width={370}
-              height={220}
+              height={170}
               yAxisLabel="$"
               chartConfig={chartConfig}
-              verticalLabelRotation={30}
+              verticalLabelRotation={0}
               style={{borderRadius: 10}}
             />
           </View>
@@ -250,9 +297,12 @@ const styles = StyleSheet.create({
     borderRadius: 24,
     paddingVertical: 10,
     paddingHorizontal: 15,
+    marginBottom: 10, 
   },
   titleExpenseContainer: {
-    marginBottom: 25,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginBottom: 10,
     marginTop: 5,
     paddingLeft: 10,
   },
@@ -263,26 +313,70 @@ const styles = StyleSheet.create({
   titleExpensesDate: {
     color: GlobalColor.colors.gray400,
   },
-  percentageExpenseRootContainer: {
-    marginVertical: 30,
-    marginLeft: 'auto',
-    marginRight: 'auto',
+  titletotalExpenses: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    color: GlobalColor.colors.blue500,
+    paddingRight: 10,
   },
-  percentageDirection: {
+  pieInnerContainer: {
     flexDirection: 'row',
-    alignContent: 'center',
+    justifyContent: 'space-between',
     alignItems: 'center',
   },
+  percentageExpenseRootContainer: {
+    marginVertical: 30,
+    // marginLeft: 'auto',
+    // marginRight: 'auto',
+  },
+  percentageDirection: {
+    flexDirection: 'column',
+    // alignContent: 'center',
+    // alignItems: 'center',
+    // borderWidth: 1,
+    paddingRight: 20,
+  },
   columnContainer: {
-    marginRight: 50,
+    // marginRight: 50,
+    marginBottom: 10,
   },
   column: {
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'center',
+    // justifyContent: 'center',
   },
   columnText: {
     marginLeft: 10,
+  },
+  filterButtonRootContainer: {
+    marginLeft: 'auto',
+    marginRight: 'auto',
+  },
+  filterButtonContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 10,
+  },
+  filterButton: {
+    borderWidth: 0.5,
+    borderRadius: 20,
+    borderColor: GlobalColor.colors.gray400,
+    marginRight: 10,
+    paddingVertical: 5,
+    paddingHorizontal: 10,
+  },
+  filterDataContainer: { 
+    flexDirection: 'row',
+    justifyContent: 'space-evenly',
+    paddingVertical: 5,
+  },
+  filterSpendContainer: {
+    borderWidth: 0.2,
+    borderColor: GlobalColor.colors.gray400,
+    paddingHorizontal: 15,
+    paddingVertical: 5,
+    marginRight: 10,
   },
   barContainer: {
     // elevation: 4,
