@@ -134,13 +134,12 @@ const pieData = data.map(({ id, amount }) => ({
   key: id,
 }));
 
-// const screenWidth = Dimensions.get('window').width;
+const screenWidth = Dimensions.get('window').width;
 const chartConfig = {
-  backgroundGradientFrom: GlobalColor.colors.neutral100,
-  backgroundGradientTo: GlobalColor.colors.slate50,
-  color: (opacity = 0) => `rgba(59, 130, 246, ${opacity})`,
+  backgroundGradientFrom: GlobalColor.colors.blue500,
+  backgroundGradientTo: GlobalColor.colors.blue500,
+  color: () => `${GlobalColor.colors.slate50}`,
   barPercentage: 0.5,
-  barRadius: 10,
 };
 
 const notFormattedDate = data.map((item) => item.date);
@@ -216,17 +215,18 @@ const Statistics = () => {
               <Text style={styles.titleExpenses}>Expenses</Text>
               <Text style={styles.titleExpensesDate}>1 Feb 2023 - 28 Feb 2023</Text>
             </View>
-            <PieChart style={{ height: 200 }} data={pieData} innerRadius={'50%'} animate />
+            <PieChart style={{ height: 150 }} data={pieData} innerRadius={'45%'} animate />
             <View>{labelData()}</View>
           </View>
           <View style={styles.barContainer}>
             <BarChart
               data={barChartData}
-              width={365}
+              width={370}
               height={220}
               yAxisLabel="$"
               chartConfig={chartConfig}
               verticalLabelRotation={30}
+              style={{borderRadius: 10}}
             />
           </View>
         </View>
@@ -285,11 +285,11 @@ const styles = StyleSheet.create({
     marginLeft: 10,
   },
   barContainer: {
-    elevation: 4,
-    shadowColor: 'black',
-    shadowOpacity: 0.25,
-    shadowOffset: { width: 0, height: 2 },
-    shadowRadius: 8,
-    borderWidth: 1,
+    // elevation: 4,
+    // shadowColor: 'black',
+    // shadowOpacity: 0.25,
+    // shadowOffset: { width: 0, height: 2 },
+    // shadowRadius: 8,
+    marginTop: 10,
   }
 });
