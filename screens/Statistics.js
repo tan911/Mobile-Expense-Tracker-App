@@ -1,12 +1,12 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Text, View, StyleSheet, Dimensions } from 'react-native';
 import { SafeArea, SafeAreaInnerWrapper } from '../util/safe-area.component';
+import { compareAsc, format } from 'date-fns'
 import { PieChart } from 'react-native-svg-charts';
 import { BarChart } from 'react-native-chart-kit';
-import { compareAsc, format } from 'date-fns'
 import { Entypo } from '@expo/vector-icons'
 
-import PrimaryButton from '../components/UI/PrimaryButton';
+import FilterByPeriodOfTime from '../components/FilterExpenseStats/FilterByPeriodOfTime';
 import { GlobalColor } from '../constants/color';
 
 const data = [
@@ -123,19 +123,6 @@ const data = [
 
 
 const Statistics = () => {
-  const [filterExpense, setFilterExpense ] = useState(
-    [{ filter: 'This week', isActive: true }, { filter: 'This month', isActive: false }, { filter: 'This year', isActive: false }]
-  );
-
-  const filterByPeriodOfTimeHandler = (item) => {
-    const activeExpense = filterExpense.map((filITem) => {
-      const active = filITem.filter === item ? true : false;
-
-      return { ...filITem, isActive: active}
-    });
-
-    setFilterExpense(activeExpense)
-  };
 
   //  Colors for Pie Chart
   const definedColors = (amount) => {
@@ -228,22 +215,32 @@ const Statistics = () => {
     );
   };
   
-  // Filter By Period of Time
-  // const filterExpense = [{ filter: 'This week' }, { filter: 'This month' }, { filter: 'This year' }];
-  const filterByPeriodOfTime = () => {
-    const renderButton = filterExpense.map((filterItem) => {
-      return (
-          <View style={{...styles.filterButton, backgroundColor: filterItem.isActive ? GlobalColor.colors.darkBlue : ''}} key={Math.random() * 1000}>
-            <PrimaryButton onPress={() => filterByPeriodOfTimeHandler(filterItem.filter)} style={{color: filterItem.isActive ? GlobalColor.colors.slate50 : '' }}>{filterItem.filter}</PrimaryButton>
-          </View>
-      )
-    })
-  
-    return (
-      <View style={styles.filterButtonContainer}>{renderButton}</View>
-    )
-  }
+  // Spend by week
+  const _byWeek = data.map((item) => {
+    const date = item.date;
+    const day = date.getDate()
+    const expensesInWeek = day <= 6 ? item.amount : 0;
+    return expensesInWeek
 
+  }).reduce((curr, acc) => curr + acc);
+
+  // Spend by Month
+  const _byMonth = data.map((item) => {
+    const date = item.date;
+    const day = date.getDate()
+    const expensesInMonth = day <= 31 ? item.amount : 0;
+    return expensesInMonth
+
+  }).reduce((curr, acc) => curr + acc);
+
+  // Spend by Year
+  const _byYear = data.map((item) => {
+    const date = item.date;
+    const day = date.getDate()
+    const expensesInYear = day <= 365 ? item.amount : 0;
+    return expensesInYear
+
+  }).reduce((curr, acc) => curr + acc);
 
   return (
     <SafeArea>
@@ -263,19 +260,7 @@ const Statistics = () => {
               <View>{labelData()}</View>
             </View>
           </View>
-          <View style={styles.filterButtonRootContainer}>
-            {filterByPeriodOfTime()}
-            <View style={styles.filterDataContainer}>
-              <View style={styles.filterSpendContainer}>
-                  <Text style={styles.filterSpendText}>Avg Montly spend</Text>
-                  <Text style={styles.filterSpendNumber}>$200.00</Text>
-              </View>
-              <View style={styles.filterSpendContainer}>
-                  <Text style={styles.filterSpendText}>Spent this month</Text>
-                  <Text style={styles.filterSpendNumber}>$150.00</Text>
-              </View>
-            </View>
-          </View>
+          <FilterByPeriodOfTime week={_byWeek} month={_byMonth} year={_byYear}/>
           <View style={styles.barContainer}>
             <View style={styles.barContainerLabel}>
               <View style={styles.barLabelIcon}>
@@ -364,44 +349,6 @@ const styles = StyleSheet.create({
   },
   columnTextLabel: {
     color: GlobalColor.colors.slate300
-  },
-  filterButtonRootContainer: {
-    marginLeft: 'auto',
-    marginRight: 'auto',
-  },
-  filterButtonContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginBottom: 10,
-  },
-  filterButton: {
-    borderWidth: 0.5,
-    borderRadius: 20,
-    borderColor: GlobalColor.colors.gray400,
-    marginRight: 10,
-    paddingVertical: 5,
-    paddingHorizontal: 10,
-  },
-  filterDataContainer: { 
-    flexDirection: 'row',
-    justifyContent: 'space-evenly',
-    paddingVertical: 5,
-  },
-  filterSpendContainer: {
-    borderWidth: 0.4,
-    borderColor: GlobalColor.colors.gray400,
-    borderRadius: 10,
-    paddingHorizontal: 20,
-    paddingVertical: 10,
-    marginRight: 10,
-    backgroundColor: GlobalColor.colors.darkBlue,
-  },
-  filterSpendText: {
-    color: GlobalColor.colors.slate300
-  },
-  filterSpendNumber: {
-    color: GlobalColor.colors.emerald500
   },
   barContainer: {
     overflow: 'hidden',
