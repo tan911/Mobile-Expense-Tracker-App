@@ -4,6 +4,7 @@ import { SafeArea, SafeAreaInnerWrapper } from '../util/safe-area.component';
 import { PieChart } from 'react-native-svg-charts';
 import { BarChart } from 'react-native-chart-kit';
 import { compareAsc, format } from 'date-fns'
+import { Entypo } from '@expo/vector-icons'
 
 import PrimaryButton from '../components/UI/PrimaryButton';
 import { GlobalColor } from '../constants/color';
@@ -122,15 +123,21 @@ const data = [
 
 
 const Statistics = () => {
-  // TODO
-  // const [buttonActive, setButtonActive] = useState(true);
+  const [filterExpense, setFilterExpense ] = useState(
+    [{ filter: 'This week', isActive: true }, { filter: 'This month', isActive: false }, { filter: 'This year', isActive: false }]
+  );
 
-  // const filterByPeriodOfTimeHandler = (item) => {
-  //   setButtonActive(!buttonActive)
-  // };
+  const filterByPeriodOfTimeHandler = (item) => {
+    const activeExpense = filterExpense.map((filITem) => {
+      const active = filITem.filter === item ? true : false;
 
-  //============================
+      return { ...filITem, isActive: active}
+    });
 
+    setFilterExpense(activeExpense)
+  };
+
+  //  Colors for Pie Chart
   const definedColors = (amount) => {
     if (amount >= 50) {
       return GlobalColor.colors.blue500;
@@ -147,14 +154,16 @@ const Statistics = () => {
     key: id,
   }));
   
+  // Bar Chart Configuration
   const screenWidth = Dimensions.get('window').width;
   const chartConfig = {
-    backgroundGradientFrom: GlobalColor.colors.blue500,
-    backgroundGradientTo: GlobalColor.colors.blue500,
+    backgroundGradientFrom: GlobalColor.colors.darkBlue,
+    backgroundGradientTo: GlobalColor.colors.darkBlue,
     color: () => `${GlobalColor.colors.slate50}`,
     barPercentage: 0.5,
   };
   
+  // Date Bar Configuration
   const notFormattedDate = data.map((item) => item.date);
   const sortDate = notFormattedDate.sort(compareAsc);
   const monthDate = sortDate.map((date) => {
@@ -173,10 +182,12 @@ const Statistics = () => {
     ]
   }
   
+  // Avg Expense Calculations
   const totalExpense = data.map(({ amount }) => amount).reduce((acc, curr) => acc + curr);
   const averageExpense = data.map(({ amount }) => amount >= 50).reduce((acc, curr) => acc + curr);
   const lowExpense = data.map(({ amount }) => amount < 50).reduce((acc, curr) => acc + curr);
   
+  // label Avg Config
   const labelData = () => {
     const _avgPercentage = (averageExpense / totalExpense) * 100;
     const _lowPercentage = (lowExpense / totalExpense) * 100;
@@ -203,26 +214,27 @@ const Statistics = () => {
               {avgColorSquare(_avgPercentage)}
               <Text style={styles.columnText}>{parseFloat(_avgPercentage).toFixed(2)}</Text>
             </View>
-            <Text>Average Expense</Text>
+            <Text style={styles.columnTextLabel}>Average Expense</Text>
           </View>
           <View>
             <View style={styles.column}>
               {avgColorSquare()}
               <Text style={styles.columnText}>{parseFloat(_lowPercentage).toFixed(2)}</Text>
             </View>
-            <Text>Low Expense</Text>
+            <Text style={styles.columnTextLabel}>Low Expense</Text>
           </View>
         </View>
       </View>
     );
   };
   
-  const filterExpense = [{ filter: 'This week' }, { filter: 'This month' }, { filter: 'This year' }];
+  // Filter By Period of Time
+  // const filterExpense = [{ filter: 'This week' }, { filter: 'This month' }, { filter: 'This year' }];
   const filterByPeriodOfTime = () => {
     const renderButton = filterExpense.map((filterItem) => {
       return (
-          <View style={{...styles.filterButton}}>
-            <PrimaryButton key={filterItem.filter}>{filterItem.filter}</PrimaryButton>
+          <View style={{...styles.filterButton, backgroundColor: filterItem.isActive ? GlobalColor.colors.darkBlue : ''}} key={Math.random() * 1000}>
+            <PrimaryButton onPress={() => filterByPeriodOfTimeHandler(filterItem.filter)} style={{color: filterItem.isActive ? GlobalColor.colors.slate50 : '' }}>{filterItem.filter}</PrimaryButton>
           </View>
       )
     })
@@ -255,25 +267,30 @@ const Statistics = () => {
             {filterByPeriodOfTime()}
             <View style={styles.filterDataContainer}>
               <View style={styles.filterSpendContainer}>
-                  <Text>Avg Montly spend</Text>
-                  <Text>$200.00</Text>
+                  <Text style={styles.filterSpendText}>Avg Montly spend</Text>
+                  <Text style={styles.filterSpendNumber}>$200.00</Text>
               </View>
               <View style={styles.filterSpendContainer}>
-                  <Text>Spent this month</Text>
-                  <Text>$150.00</Text>
+                  <Text style={styles.filterSpendText}>Spent this month</Text>
+                  <Text style={styles.filterSpendNumber}>$150.00</Text>
               </View>
             </View>
           </View>
           <View style={styles.barContainer}>
-            <Text>Statistics</Text>
+            <View style={styles.barContainerLabel}>
+              <View style={styles.barLabelIcon}>
+                <Entypo name='bar-graph' size={20} color={GlobalColor.colors.slate50}/>
+              </View>
+              <Text style={styles.barLabelText}>Cash Report</Text>
+            </View>
             <BarChart
               data={barChartData}
-              width={370}
+              width={365}
               height={170}
-              yAxisLabel="$"
+              yAxisLabel="₱"
               chartConfig={chartConfig}
               verticalLabelRotation={0}
-              style={{borderRadius: 10}}
+              style={{borderBottomLeftRadius: 0}}
             />
           </View>
         </View>
@@ -290,6 +307,7 @@ const styles = StyleSheet.create({
     fontSize: 25,
     fontWeight: 'bold',
     marginBottom: 10,
+    color: GlobalColor.colors.darkBlue
   },
   pieContainer: {
     borderWidth: 0.8,
@@ -297,7 +315,8 @@ const styles = StyleSheet.create({
     borderRadius: 24,
     paddingVertical: 10,
     paddingHorizontal: 15,
-    marginBottom: 10, 
+    marginBottom: 15,
+    backgroundColor: GlobalColor.colors.darkBlue 
   },
   titleExpenseContainer: {
     flexDirection: 'row',
@@ -309,6 +328,7 @@ const styles = StyleSheet.create({
   titleExpenses: {
     fontSize: 20,
     fontWeight: 'bold',
+    color: GlobalColor.colors.slate300
   },
   titleExpensesDate: {
     color: GlobalColor.colors.gray400,
@@ -326,27 +346,24 @@ const styles = StyleSheet.create({
   },
   percentageExpenseRootContainer: {
     marginVertical: 30,
-    // marginLeft: 'auto',
-    // marginRight: 'auto',
   },
   percentageDirection: {
     flexDirection: 'column',
-    // alignContent: 'center',
-    // alignItems: 'center',
-    // borderWidth: 1,
     paddingRight: 20,
   },
   columnContainer: {
-    // marginRight: 50,
     marginBottom: 10,
   },
   column: {
     flexDirection: 'row',
     alignItems: 'center',
-    // justifyContent: 'center',
   },
   columnText: {
     marginLeft: 10,
+    color: GlobalColor.colors.slate300
+  },
+  columnTextLabel: {
+    color: GlobalColor.colors.slate300
   },
   filterButtonRootContainer: {
     marginLeft: 'auto',
@@ -372,18 +389,40 @@ const styles = StyleSheet.create({
     paddingVertical: 5,
   },
   filterSpendContainer: {
-    borderWidth: 0.2,
+    borderWidth: 0.4,
     borderColor: GlobalColor.colors.gray400,
-    paddingHorizontal: 15,
-    paddingVertical: 5,
+    borderRadius: 10,
+    paddingHorizontal: 20,
+    paddingVertical: 10,
     marginRight: 10,
+    backgroundColor: GlobalColor.colors.darkBlue,
+  },
+  filterSpendText: {
+    color: GlobalColor.colors.slate300
+  },
+  filterSpendNumber: {
+    color: GlobalColor.colors.emerald500
   },
   barContainer: {
-    // elevation: 4,
-    // shadowColor: 'black',
-    // shadowOpacity: 0.25,
-    // shadowOffset: { width: 0, height: 2 },
-    // shadowRadius: 8,
+    overflow: 'hidden',
     marginTop: 10,
+    borderRadius: 10,
+    backgroundColor: GlobalColor.colors.darkBlue
+  },
+  barContainerLabel: {
+    flexDirection: 'row',
+    alignItems: 'center'
+  },
+  barLabelIcon: {
+    backgroundColor: GlobalColor.colors.emerald500,
+    padding: 7,
+    borderRadius: 20, 
+    marginRight: 10, 
+    margin: 15
+  },
+  barLabelText: {
+    color: GlobalColor.colors.slate300,
+    fontWeight: 'bold',
+    fontSize: 20
   }
 });
