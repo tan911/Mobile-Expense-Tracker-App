@@ -1,5 +1,5 @@
-import React from 'react';
-import { StyleSheet, TextInput } from 'react-native';
+import React, { useState } from 'react';
+import { ScrollView, StyleSheet, TextInput } from 'react-native';
 import { Text, View } from 'react-native';
 import { Title } from 'react-native-paper';
 import { SafeArea } from '../../../util/safe-area.component';
@@ -7,8 +7,32 @@ import { Ionicons } from '@expo/vector-icons';
 import { GlobalColor } from '../../../constants/color';
 import { Image } from 'react-native';
 import KeyboardDismiss from '../../../components/UI/KeyboardDismiss';
+import { useEffect } from 'react';
+import axios from 'axios';
+import CommunityPost from './CommunityPost';
+import LoadingOverlay from '../../../components/UI/LoadingOverlay';
 
 const CommunityHomePage = () => {
+  const [posts, setPosts] = useState([]);
+  const [isFetching, setIsFetching] = useState(true);
+  useEffect(() => {
+    const fetchPosts = async () => {
+      const posts = await axios.get('https://jsonplaceholder.typicode.com/comments');
+      setPosts(posts.data);
+      setIsFetching(false);
+    };
+
+    fetchPosts();
+  }, []);
+
+  let content;
+  if (isFetching) {
+    content = <LoadingOverlay message="loading..." />;
+  } else {
+    const renderedPosts = posts.map((post) => <CommunityPost post={post} />);
+    content = renderedPosts;
+  }
+
   return (
     <SafeArea>
       <KeyboardDismiss>
@@ -24,16 +48,7 @@ const CommunityHomePage = () => {
             <Ionicons style={styles.searchIcon} name="ios-search" size={20} color="#000" />
           </View>
 
-          <View>
-            <View>
-              <Image
-                style={styles.profileLogo}
-                source={{
-                  uri: 'https://cdn-icons-png.flaticon.com/512/2354/2354573.png',
-                }}
-              />
-            </View>
-          </View>
+          <ScrollView>{content}</ScrollView>
         </View>
       </KeyboardDismiss>
     </SafeArea>
@@ -70,5 +85,11 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     color: '#424242',
     fontSize: 14,
+  },
+
+  profileLogo: {
+    height: 45,
+    width: 45,
+    borderRadius: '50%',
   },
 });
