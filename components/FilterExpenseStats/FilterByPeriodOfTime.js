@@ -81,8 +81,8 @@ function FilterByPeriodOfTime({ week, month, year }) {
         <View style={styles.filterSpendContainer}>
           <Text style={styles.filterSpendText}>Avg {avgTime} spend</Text>
           <Text style={styles.filterSpendNumber}>{`₱${parseFloat(
-            calculateAverageSpend(timeExpense, avgTime).toFixed(2)
-          )}`}</Text>
+            calculateAverageSpend(timeExpense, avgTime)
+          ).toFixed(2)}`}</Text>
         </View>
         <View style={styles.filterSpendContainer}>
           <Text style={styles.filterSpendText}>Spent this {byTime}</Text>
