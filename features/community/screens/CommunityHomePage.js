@@ -47,8 +47,9 @@ const CommunityHomePage = () => {
             />
             <Ionicons style={styles.searchIcon} name="ios-search" size={20} color="#000" />
           </View>
-
-          <ScrollView>{content}</ScrollView>
+          <View style={styles.contentContainer}>
+            <ScrollView>{content}</ScrollView>
+          </View>
         </View>
       </KeyboardDismiss>
     </SafeArea>
@@ -86,10 +87,12 @@ const styles = StyleSheet.create({
     color: '#424242',
     fontSize: 14,
   },
-
   profileLogo: {
     height: 45,
     width: 45,
     borderRadius: '50%',
   },
+  contentContainer: {
+    marginTop: 20,
+  }
 });
