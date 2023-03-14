@@ -29,7 +29,7 @@ const CommunityHomePage = () => {
   if (isFetching) {
     content = <LoadingOverlay message="loading..." />;
   } else {
-    const renderedPosts = posts.map((post) => <CommunityPost post={post} />);
+    const renderedPosts = posts.map((post) => <CommunityPost key={Math.random() * 5000} post={post} />);
     content = renderedPosts;
   }
 
