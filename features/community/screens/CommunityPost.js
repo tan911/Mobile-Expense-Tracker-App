@@ -1,9 +1,28 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import { Ionicons, EvilIcons } from '@expo/vector-icons';
+import { EvilIcons } from '@expo/vector-icons';
 import { GlobalColor } from '../../../constants/color';
 
+import IconButton from '../components/UI/IconButton';
+
 const CommunityPost = ({ post }) => {
+  const [ iconButton, setIconButton ] = useState({
+    icon: 'heart-outline',
+    color: '',
+    likes: 0,
+  });
+  
+  const likeButtonPressHandler = () => {
+    setIconButton({
+      icon: 'heart',
+      color: 'red',
+      likes: +1,
+    });
+  };
+
+  const { icon, color, likes } = iconButton;
+
+
   return (
     <View key={post.id} style={styles.rootContainer}>
       <View style={styles.cardContainer}>
@@ -23,8 +42,8 @@ const CommunityPost = ({ post }) => {
         </View>
         <View>
           <View style={styles.iconWrapper}>
-            <Ionicons name="heart" size={18} color="red" />
-            <Text style={styles.likesCount}>1.2k</Text>
+            <IconButton icon={icon} color={color} onPress={likeButtonPressHandler} />
+            <Text style={styles.likesCount}>{likes}</Text>
           </View>
         </View>
       </View>
