@@ -1,17 +1,17 @@
 import React, { useState } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { EvilIcons } from '@expo/vector-icons';
 import { GlobalColor } from '../../../constants/color';
 
 import IconButton from '../components/UI/IconButton';
 
 const CommunityPost = ({ post }) => {
-  const [ iconButton, setIconButton ] = useState({
+  const [iconButton, setIconButton] = useState({
     icon: 'heart-outline',
     color: '',
     likes: 0,
   });
-  
+
   const likeButtonPressHandler = () => {
     setIconButton({
       icon: 'heart',
@@ -22,9 +22,8 @@ const CommunityPost = ({ post }) => {
 
   const { icon, color, likes } = iconButton;
 
-
   return (
-    <View key={post.id} style={styles.rootContainer}>
+    <Pressable key={post.id} style={styles.rootContainer}>
       <View style={styles.cardContainer}>
         <View style={styles.userLabelContainer}>
           {/* <Image
@@ -34,7 +33,7 @@ const CommunityPost = ({ post }) => {
             }}
           /> */}
           <EvilIcons name="user" size={30} color="black" />
-          <Text style={styles.userName}>{post.email}</Text>
+          <Text style={styles.userName}>{post.author}</Text>
           <Text style={styles.userTimePosted}>10h ago</Text>
         </View>
         <View style={styles.userMessageContainer}>
@@ -43,11 +42,11 @@ const CommunityPost = ({ post }) => {
         <View>
           <View style={styles.iconWrapper}>
             <IconButton icon={icon} color={color} onPress={likeButtonPressHandler} />
-            <Text style={styles.likesCount}>{likes}</Text>
+            <Text style={styles.likesCount}>{post.likes}</Text>
           </View>
         </View>
       </View>
-    </View>
+    </Pressable>
   );
 };
 
@@ -79,7 +78,7 @@ const styles = StyleSheet.create({
   },
   userTimePosted: {
     marginLeft: 5,
-    color: GlobalColor.colors.gray400
+    color: GlobalColor.colors.gray400,
   },
   userMessageContainer: {
     paddingHorizontal: 10,
@@ -88,7 +87,7 @@ const styles = StyleSheet.create({
   userMessage: {
     fontSize: 15,
     fontWeight: 'bold',
-    color: GlobalColor.colors.darkBlue
+    color: GlobalColor.colors.darkBlue,
   },
   iconWrapper: {
     flexDirection: 'row',
@@ -97,5 +96,5 @@ const styles = StyleSheet.create({
   },
   likesCount: {
     marginLeft: 5,
-  }
+  },
 });
