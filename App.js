@@ -9,6 +9,7 @@ import { AuthContext, AuthContextProvider } from './store/auth-context';
 import { useContext, useEffect, useState } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import AppLoading from 'expo-app-loading';
+import CommunityContextProvider from './store/community-context';
 
 function Root() {
   const [isTryingLogin, setIsTryingLogin] = useState(true);
@@ -39,7 +40,9 @@ export default function App() {
       <StatusBar style="dark" />
       <AuthContextProvider>
         <ExpenseContextProvider>
-          <Root />
+          <CommunityContextProvider>
+            <Root />
+          </CommunityContextProvider>
         </ExpenseContextProvider>
       </AuthContextProvider>
     </>
