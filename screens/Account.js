@@ -9,14 +9,10 @@ import { AuthErrorCodes } from 'firebase/auth';
 import { AuthContext } from '../store/auth-context';
 const Account = () => {
   // const { onLogout, user } = useContext(AuthenticationContext);
-  const { logout } = useContext(AuthContext);
-  const user = {
-    email: 'dekeji1@gmail.com',
-    displayName: 'This is dummy data',
-  };
+  const { logout, user } = useContext(AuthContext);
   return (
     <View style={styles.container}>
-      {/* <View style={styles.profile}>
+      <View style={styles.profile}>
         <Image
           style={styles.profileLogo}
           source={{
@@ -41,8 +37,7 @@ const Account = () => {
             <SimpleLineIcons style={styles.settingsButtonIcon} name="logout" size={20} />
           </View>
         </Pressable>
-      </View> */}
-      <Text>Settings page</Text>
+      </View>
     </View>
   );
 };
