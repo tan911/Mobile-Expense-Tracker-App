@@ -21,7 +21,7 @@ const CommunityHomePage = () => {
       setPosts(posts.data);
       setIsFetching(false);
     };
-
+    
     fetchPosts();
   }, []);
 
@@ -32,6 +32,8 @@ const CommunityHomePage = () => {
     const renderedPosts = posts.map((post) => <CommunityPost key={Math.random() * 5000} post={post} />);
     content = renderedPosts;
   }
+
+
 
   return (
     <SafeArea>
