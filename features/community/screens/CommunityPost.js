@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { EvilIcons } from '@expo/vector-icons';
 import { GlobalColor } from '../../../constants/color';
 
@@ -23,7 +23,7 @@ const CommunityPost = ({ post }) => {
   const { icon, color, likes } = iconButton;
 
   return (
-    <View key={post.id} style={styles.rootContainer}>
+    <Pressable key={post.id} style={styles.rootContainer}>
       <View style={styles.cardContainer}>
         <View style={styles.userLabelContainer}>
           {/* <Image
@@ -46,7 +46,7 @@ const CommunityPost = ({ post }) => {
           </View>
         </View>
       </View>
-    </View>
+    </Pressable>
   );
 };
 

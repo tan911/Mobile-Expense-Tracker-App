@@ -40,6 +40,7 @@ export default function CommunityContextProvider({ children }) {
       setIsFetchingPosts(true);
       try {
         const posts = await fetchPosts();
+
         setPosts(posts);
         setIsFetchingPosts(false);
       } catch (error) {
@@ -48,7 +49,6 @@ export default function CommunityContextProvider({ children }) {
     }
 
     getPosts();
-    console.log('fetching rn...');
   }, []);
 
   const [postsState, dispatch] = useReducer(postReducer, []);
