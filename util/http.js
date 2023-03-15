@@ -30,3 +30,21 @@ export async function updateExpense(id, expenseData) {
 export async function deleteExpense(id) {
   return axios.delete(BACKEND_URL + `/expenses/${id}.json`);
 }
+
+export async function fetchPosts() {
+  const response = await axios.get('https://jsonplaceholder.typicode.com/comments');
+  const posts = [];
+  for (const key in response.data) {
+    const postObj = {
+      id: key,
+      author: response.data[key].email,
+      body: response.data[key].body,
+      likes: 0,
+      comments: 0,
+    };
+
+    posts.push(postObj);
+  }
+
+  return posts;
+}
