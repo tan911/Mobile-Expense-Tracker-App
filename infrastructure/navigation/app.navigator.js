@@ -15,6 +15,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { Button } from 'react-native-paper';
 import { Text, TouchableHighlight, View } from 'react-native';
 import CommunityHomePage from '../../features/community/screens/CommunityHomePage';
+import AddComment from '../../features/community/screens/AddComment';
 
 const Stack = createNativeStackNavigator();
 const BottomTabs = createBottomTabNavigator();
@@ -100,6 +101,13 @@ export const AppNavigator = () => {
         component={ManageExpense}
         options={{
           presentation: 'modal',
+        }}
+      />
+      <Stack.Screen
+        name="AddComment"
+        component={AddComment}
+        options={{
+          presentation: 'modal'
         }}
       />
     </Stack.Navigator>
