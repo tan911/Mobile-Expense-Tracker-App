@@ -37,10 +37,10 @@ export async function fetchPosts() {
   for (const key in response.data) {
     const postObj = {
       id: key,
-      author: response.data[key].email,
+      author: 'Viola Brooks',
       body: response.data[key].body,
-      likes: 0,
-      comments: 0,
+      likes: 100,
+      comments: 30,
     };
 
     posts.push(postObj);

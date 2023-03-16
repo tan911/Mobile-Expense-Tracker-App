@@ -23,6 +23,7 @@ const CommunityHomePage = () => {
   } else {
     const renderedPosts = (
       <FlatList
+        style={styles.contentContainer}
         data={posts}
         renderItem={({ item }) => <CommunityPost post={item} />}
         keyExtractor={(item) => item.id}
@@ -46,7 +47,7 @@ const CommunityHomePage = () => {
             />
             <Ionicons style={styles.searchIcon} name="ios-search" size={20} color="#000" />
           </View>
-          <View style={styles.contentContainer}>{content}</View>
+          {content}
         </View>
       </KeyboardDismiss>
     </SafeArea>
@@ -58,6 +59,7 @@ export default CommunityHomePage;
 const styles = StyleSheet.create({
   container: {
     marginTop: 40,
+    padding: 5,
     flex: 1,
   },
   searchSection: {
