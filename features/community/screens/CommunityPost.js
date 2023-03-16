@@ -42,7 +42,7 @@ const CommunityPost = ({ post }) => {
         <View>
           <View style={styles.iconWrapper}>
             <IconButton icon={icon} color={color} onPress={likeButtonPressHandler} />
-            <Text style={styles.likesCount}>{post.likes}</Text>
+            <Text style={styles.likesCount}>{likes}</Text>
           </View>
         </View>
       </View>

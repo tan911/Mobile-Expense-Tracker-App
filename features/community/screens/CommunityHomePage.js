@@ -1,20 +1,22 @@
-import React, { useState } from 'react';
-import { FlatList, ScrollView, StyleSheet, TextInput } from 'react-native';
-import { Text, View } from 'react-native';
+import React from 'react';
+import { FlatList, StyleSheet, TextInput } from 'react-native';
+import { View } from 'react-native';
 import { Title } from 'react-native-paper';
 import { SafeArea } from '../../../util/safe-area.component';
 import { Ionicons } from '@expo/vector-icons';
 import { GlobalColor } from '../../../constants/color';
 import { Image } from 'react-native';
 import KeyboardDismiss from '../../../components/UI/KeyboardDismiss';
-import { useEffect } from 'react';
-import axios from 'axios';
 import CommunityPost from './CommunityPost';
 import LoadingOverlay from '../../../components/UI/LoadingOverlay';
 import { useContext } from 'react';
 import { CommunityContext } from '../../../store/community-context';
+import { useNavigation } from "@react-navigation/native";
+
+import CommunityButton from '../components/UI/CommunityButton';
 
 const CommunityHomePage = () => {
+  const navigation = useNavigation();
   const { posts, isFetchingPosts } = useContext(CommunityContext);
   let content;
 
@@ -32,11 +34,19 @@ const CommunityHomePage = () => {
     content = renderedPosts;
   }
 
+  const addCommentHandler = () => {
+    navigation.navigate('AddComment')
+  }
+
+
   return (
     <SafeArea>
       <KeyboardDismiss>
         <View style={styles.container}>
-          <Title>Community</Title>
+          <View style={styles.titleContainer}>
+            <Title>Community</Title>
+            <CommunityButton onPress={addCommentHandler} />
+          </View>
           <View style={styles.searchSection}>
             <TextInput
               style={styles.input}
@@ -46,6 +56,7 @@ const CommunityHomePage = () => {
             />
             <Ionicons style={styles.searchIcon} name="ios-search" size={20} color="#000" />
           </View>
+          <View></View>
           <View style={styles.contentContainer}>{content}</View>
         </View>
       </KeyboardDismiss>
@@ -59,6 +70,11 @@ const styles = StyleSheet.create({
   container: {
     marginTop: 40,
     flex: 1,
+  },
+  titleContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center'
   },
   searchSection: {
     flexDirection: 'row',
