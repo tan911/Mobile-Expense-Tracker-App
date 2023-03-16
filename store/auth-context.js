@@ -7,29 +7,28 @@ export const AuthContext = createContext({
   authenticate: () => {},
   logout: () => {},
   isLoggedOut: false,
-  user: {},
 });
 
 export function AuthContextProvider({ children }) {
-  const [authToken, setAuthToken] = useState();
-
+  const [user, setUser] = useState(null);
   const [isLoggedOut, setIsLoggedOut] = useState();
-  const [user, setUser] = useState({});
 
-  function authenticate(token) {
-    setAuthToken(token);
-    AsyncStorage.setItem('token', token);
+  function authenticate(user) {
+    setUser(user);
+    console.log(user);
+    const jsonUser = JSON.stringify(user);
+
+    AsyncStorage.setItem('user', jsonUser);
   }
 
   function logout() {
-    setAuthToken(null);
-    AsyncStorage.removeItem('token');
+    setUser(null);
+    AsyncStorage.removeItem('user');
     setIsLoggedOut(true);
   }
 
   const value = {
-    token: authToken,
-    isAuthenticated: !!authToken,
+    isAuthenticated: !!user,
     authenticate,
     logout,
     isLoggedOut,

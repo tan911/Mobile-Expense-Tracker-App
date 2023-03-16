@@ -16,16 +16,17 @@ function Root() {
   const authCtx = useContext(AuthContext);
 
   useEffect(() => {
-    async function fetchToken() {
-      const storedToken = await AsyncStorage.getItem('token');
+    async function fetchUser() {
+      const storedUser = await AsyncStorage.getItem('user');
+      const parsedStoredUser = JSON.parse(storedUser);
 
-      if (storedToken) {
-        authCtx.authenticate(storedToken);
+      if (parsedStoredUser) {
+        authCtx.authenticate(parsedStoredUser);
       }
       setIsTryingLogin(false);
     }
 
-    fetchToken();
+    fetchUser();
   }, []);
 
   if (isTryingLogin) {
