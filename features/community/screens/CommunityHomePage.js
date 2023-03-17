@@ -14,6 +14,9 @@ import { CommunityContext } from '../../../store/community-context';
 import { useNavigation } from '@react-navigation/native';
 
 import CommunityButton from '../components/UI/CommunityButton';
+import CommunityCard from '../components/UI/CommunityCard';
+import axios from 'axios';
+import { uploadPostData } from '../../../util/http';
 
 const CommunityHomePage = () => {
   const navigation = useNavigation();
@@ -27,7 +30,7 @@ const CommunityHomePage = () => {
       <FlatList
         style={styles.contentContainer}
         data={posts}
-        renderItem={({ item }) => <CommunityPost post={item} />}
+        renderItem={({ item }) => <CommunityCard post={item} navigation={navigation} />}
         keyExtractor={(item) => item.id}
       />
     );
@@ -36,7 +39,7 @@ const CommunityHomePage = () => {
   }
 
   const addCommentHandler = () => {
-    navigation.navigate('AddComment');
+    navigation.navigate('AskQuestion');
   };
 
   return (

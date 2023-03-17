@@ -15,6 +15,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { Button } from 'react-native-paper';
 import { Text, TouchableHighlight, View } from 'react-native';
 import CommunityHomePage from '../../features/community/screens/CommunityHomePage';
+import AskQuestion from '../../features/community/screens/AskQuestion';
 import AddComment from '../../features/community/screens/AddComment';
 
 const Stack = createNativeStackNavigator();
@@ -104,10 +105,17 @@ export const AppNavigator = () => {
         }}
       />
       <Stack.Screen
+        name="AskQuestion"
+        component={AskQuestion}
+        options={{
+          presentation: 'modal',
+        }}
+      />
+      <Stack.Screen
         name="AddComment"
         component={AddComment}
         options={{
-          presentation: 'modal'
+          presentation: 'modal',
         }}
       />
     </Stack.Navigator>

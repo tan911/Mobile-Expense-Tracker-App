@@ -8,7 +8,7 @@ export const CommunityContext = createContext({
   setPosts: (expenses) => {},
   addPost: ({ author, body, likes }) => {},
   deletePost: (id) => {},
-  updatePost: (id, { author, body, likes }) => {},
+  updatePost: (id, { author, body, liked, likes }) => {},
 });
 
 function postReducer(state, action) {
@@ -26,6 +26,7 @@ function postReducer(state, action) {
       const updatedPosts = [...state];
       updatedPosts[updatablePostIndex] = updatedItem;
       return updatedPosts;
+
     case 'DELETE':
       return state.filter((post) => post.id !== action.payload.id);
     default:
@@ -35,6 +36,8 @@ function postReducer(state, action) {
 
 export default function CommunityContextProvider({ children }) {
   const [isFetchingPosts, setIsFetchingPosts] = useState(false);
+  const [isPostLiked, setIsPostLiked] = useState(false);
+
   useEffect(() => {
     async function getPosts() {
       setIsFetchingPosts(true);
@@ -50,6 +53,8 @@ export default function CommunityContextProvider({ children }) {
 
     getPosts();
   }, []);
+
+  function likeButtonPressHandler() {}
 
   const [postsState, dispatch] = useReducer(postReducer, []);
   function setPosts(posts) {

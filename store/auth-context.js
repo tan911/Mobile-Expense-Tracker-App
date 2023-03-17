@@ -15,9 +15,7 @@ export function AuthContextProvider({ children }) {
 
   function authenticate(user) {
     setUser(user);
-    console.log(user);
     const jsonUser = JSON.stringify(user);
-
     AsyncStorage.setItem('user', jsonUser);
   }
 

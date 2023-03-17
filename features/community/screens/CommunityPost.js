@@ -4,8 +4,9 @@ import { EvilIcons, FontAwesome } from '@expo/vector-icons';
 import { GlobalColor } from '../../../constants/color';
 
 import IconButton from '../components/UI/IconButton';
+import { useNavigate, useNavigation } from 'react-router-dom';
 
-const CommunityPost = ({ post }) => {
+const CommunityPost = ({ post, navigation }) => {
   const [iconButton, setIconButton] = useState({
     icon: 'heart-outline',
     color: '',
@@ -20,7 +21,9 @@ const CommunityPost = ({ post }) => {
     });
   };
 
-  const commentButtonPressHandler = () => {};
+  const commentButtonPressHandler = () => {
+    navigation.navigate('AddComment', { post, navigation });
+  };
 
   const { icon, color, likes } = iconButton;
 
@@ -34,6 +37,7 @@ const CommunityPost = ({ post }) => {
           }}
         />
         <Text style={styles.userName}>{post.author}</Text>
+        {}
         <Text style={styles.userTimePosted}>10h ago</Text>
       </View>
       <View style={styles.userMessageContainer}>
@@ -44,10 +48,10 @@ const CommunityPost = ({ post }) => {
           <IconButton icon={icon} color={color} onPress={likeButtonPressHandler} />
           <Text style={styles.likesCount}>{post.likes}</Text>
         </View>
-        <View style={styles.iconWrapper}>
+        <Pressable style={styles.iconWrapper} onPress={commentButtonPressHandler}>
           <FontAwesome name="commenting" size={20} color="black" />
           <Text style={styles.likesCount}>{post.comments}</Text>
-        </View>
+        </Pressable>
       </View>
     </Pressable>
   );
@@ -97,9 +101,9 @@ const styles = StyleSheet.create({
   iconWrapper: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginRight: 10,
+    marginRight: 15,
   },
   likesCount: {
-    marginLeft: 1,
+    marginLeft: 3,
   },
 });

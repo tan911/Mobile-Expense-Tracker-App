@@ -32,19 +32,22 @@ export async function deleteExpense(id) {
 }
 
 export async function fetchPosts() {
-  const response = await axios.get('https://jsonplaceholder.typicode.com/comments');
+  const response = await axios.get(BACKEND_URL + '/posts.json');
+
   const posts = [];
   for (const key in response.data) {
     const postObj = {
       id: key,
       author: 'Viola Brooks',
       body: response.data[key].body,
+      liked: response.data[key].body,
       likes: 100,
       comments: 30,
     };
-
     posts.push(postObj);
   }
+
+  console.log(posts);
 
   return posts;
 }
