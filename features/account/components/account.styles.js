@@ -43,7 +43,7 @@ export const AuthButton = styled(Button).attrs({
 `;
 
 export const AuthInputWrapper = styled.View`
-width: 100%
+  width: 100%;
   border-radius: 50px;
 `;
 
