@@ -36,7 +36,6 @@ function postReducer(state, action) {
 
 export default function CommunityContextProvider({ children }) {
   const [isFetchingPosts, setIsFetchingPosts] = useState(false);
-  const [isPostLiked, setIsPostLiked] = useState(false);
 
   useEffect(() => {
     async function getPosts() {
@@ -54,9 +53,8 @@ export default function CommunityContextProvider({ children }) {
     getPosts();
   }, []);
 
-  function likeButtonPressHandler() {}
-
   const [postsState, dispatch] = useReducer(postReducer, []);
+  useEffect(() => {}, [postsState]);
   function setPosts(posts) {
     dispatch({ type: 'SET', payload: posts });
   }

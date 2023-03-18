@@ -5,13 +5,29 @@ import { GlobalColor } from '../../../../constants/color';
 
 import IconButton from './IconButton';
 import { useNavigate, useNavigation } from 'react-router-dom';
+import { useContext } from 'react';
+import { CommunityContext } from '../../../../store/community-context';
 
 const CommunityCard = ({ post, navigation }) => {
-  const likeButtonPressHandler = () => {};
-
   const commentButtonPressHandler = () => {
     navigation.navigate('AddComment', { post });
   };
+
+  const [iconButton, setIconButton] = useState({
+    icon: 'heart-outline',
+    color: '',
+    likes: 0,
+  });
+
+  const likeButtonPressHandler = () => {
+    setIconButton({
+      icon: 'heart',
+      color: 'red',
+      likes: +1,
+    });
+  };
+
+  const { icon, color, likes } = iconButton;
 
   return (
     <Pressable key={post.id} style={styles.cardContainer}>
@@ -19,7 +35,7 @@ const CommunityCard = ({ post, navigation }) => {
         <Image
           style={styles.profileLogo}
           source={{
-            uri: 'https://cdn-icons-png.flaticon.com/512/2354/2354573.png',
+            uri: post.profilePhotoUrl,
           }}
         />
         <Text style={styles.userName}>{post.author}</Text>
@@ -31,11 +47,7 @@ const CommunityCard = ({ post, navigation }) => {
       </View>
       <View style={styles.interactions}>
         <Pressable style={styles.iconWrapper} onPress={likeButtonPressHandler}>
-          <Ionicons
-            name={!post.liked ? 'heart-outline' : 'heart'}
-            size={20}
-            color={!post.liked ? 'black' : 'red'}
-          />
+          <IconButton icon={icon} size={20} color={color} />
           <Text style={styles.likesCount}>{post.likes}</Text>
         </Pressable>
         <Pressable style={styles.iconWrapper} onPress={commentButtonPressHandler}>
@@ -53,7 +65,7 @@ const styles = StyleSheet.create({
   cardContainer: {
     backgroundColor: GlobalColor.colors.slate50,
     marginBottom: 15,
-    padding: 10,
+    padding: 15,
     borderRadius: 20,
     elevation: 4,
     shadowColor: 'grey',
@@ -65,10 +77,12 @@ const styles = StyleSheet.create({
     width: '60%',
     flexDirection: 'row',
     alignItems: 'center',
+    marginBottom: 5,
   },
   profileLogo: {
     width: 24,
     height: 24,
+    borderRadius: '50%',
   },
   userName: {
     marginLeft: 5,
@@ -82,7 +96,7 @@ const styles = StyleSheet.create({
   },
   userMessage: {
     fontSize: 15,
-    fontWeight: 'bold',
+    fontWeight: '500',
     color: GlobalColor.colors.darkBlue,
   },
   interactions: {
