@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 
 import PrimaryButton from '../UI/PrimaryButton';
 import { GlobalColor } from '../../constants/color';
 
-function FilterByPeriodOfTime({ week, month, year }) {
+function FilterByPeriodOfTime({ week, data, month, year }) {
   const [timeExpense, setTimeExpense] = useState(week);
   const [byTime, setByTime] = useState('week');
   const [avgTime, setAvgTime] = useState('Weekly');
@@ -13,6 +13,10 @@ function FilterByPeriodOfTime({ week, month, year }) {
     { filter: 'This month', time: 'month', avgTime: 'Monthly', isActive: false, byExpense: month },
     { filter: 'This year', time: 'year', avgTime: 'Yearly', isActive: false, byExpense: year },
   ]);
+
+  useEffect(() => {
+      console.log('hello')
+  }, [data, timeExpense])
 
   const filterByPeriodOfTimeHandler = (item) => {
     const activeExpense = filterExpense.map((filITem) => {
@@ -29,13 +33,30 @@ function FilterByPeriodOfTime({ week, month, year }) {
     setFilterExpense(activeExpense);
   };
 
+  // Get average weekly spend
+  const getWeeklyAverage = () => {
+    const now = new Date();
+    const oneWeekAgo = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
+
+    const expensesInWeek = data.filter((expense) => {
+      const expenseDate = new Date(expense.date);
+      return expenseDate > oneWeekAgo && expenseDate <= now;
+    });
+
+    const totalExpenses = expensesInWeek.reduce((acc, expense) => {
+      return acc + expense.amount;
+    }, 0);
+
+    return totalExpenses / expensesInWeek.length;
+  };
+  const avgWeeklySpend = getWeeklyAverage()
+
   // Filter Avg Spend
   const calculateAverageSpend = (totalSpending, time) => {
     let timePeriodInDays;
     switch (time) {
       case 'Weekly':
-        timePeriodInDays = 7;
-        break;
+        return avgWeeklySpend !== NaN ? 0 : avgWeeklySpend;
       case 'Monthly':
         timePeriodInDays = 31;
         break;
