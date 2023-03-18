@@ -56,7 +56,7 @@ const styles = StyleSheet.create({
   profileLogo: {
     height: 45,
     width: 45,
-    borderRadius: '50%',
+    borderRadius: 50
   },
   profileTexts: {
     height: '100%',
@@ -65,12 +65,10 @@ const styles = StyleSheet.create({
   email: {
     color: GlobalColor.colors.gray400,
   },
-
   name: {
     fontSize: 17,
     fontWeight: '500',
   },
-
   settingsGroup: {
     margin: 25,
   },
@@ -83,7 +81,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 25,
     paddingVertical: 20,
     marginVertical: 15,
-
     backgroundColor: '#fff',
     borderRadius: 12,
   },

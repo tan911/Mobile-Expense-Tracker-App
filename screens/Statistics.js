@@ -15,7 +15,6 @@ import { ExpensesContext } from '../store/expense-context';
 const Statistics = () => {
   const { expenses } = useContext(ExpensesContext);
   const data = expenses;
-  
   //  Colors for Pie Chart
   const definedColors = (amount) => {
     if (amount >= 50) {
@@ -110,14 +109,42 @@ const Statistics = () => {
   };
 
   // Spend by week
-  const _byWeek = data
-    .map((item) => {
-      const date = item.date;
-      const day = date.getDate();
-      const expensesInWeek = day <= 6 ? item.amount : 0;
-      return expensesInWeek;
-    })
-    .reduce((curr, acc) => curr + acc);
+  // const _byWeek = data
+  // .map((item) => {
+  //   const date = item.date;
+  //   const day = date.getDate();
+  //   const expensesInWeek = day <= 6 ? item.amount : 0;
+  //   return expensesInWeek;
+  // })
+  // .reduce((curr, acc) => curr + acc);
+  Date.prototype.getWeek = function() {
+    var date = new Date(this.getTime());
+    date.setHours(0, 0, 0, 0);
+    date.setDate(date.getDate() + 3 - ((date.getDay() + 6) % 7));
+    var week1 = new Date(date.getFullYear(), 0, 4);
+    return (
+      1 +
+      Math.round(
+        ((date.getTime() - week1.getTime()) / 86400000 -
+          3 +
+          ((week1.getDay() + 6) % 7)) /
+          7
+      )
+    );
+  };
+
+   // logic to calculate the expenses for the current week
+   const currentWeekExpenses = data.filter(
+    (expense) => new Date(expense.date).getWeek() === new Date().getWeek());
+
+  // logic to calculate the total expenses for the current week
+  const totalCurrentWeekExpenses = currentWeekExpenses.reduce(
+    (accumulator, currentValue) => accumulator + currentValue.amount,
+    0
+  );
+
+  const _byWeek = totalCurrentWeekExpenses;
+
 
   // Spend by Month
   const _byMonth = data
@@ -127,7 +154,7 @@ const Statistics = () => {
       const expensesInMonth = day <= 31 ? item.amount : 0;
       return expensesInMonth;
     })
-    .reduce((curr, acc) => curr + acc);
+    .reduce((curr, acc) => curr + acc, 0);
 
   // Spend by Year
   const _byYear = data
@@ -137,7 +164,7 @@ const Statistics = () => {
       const expensesInYear = day <= 365 ? item.amount : 0;
       return expensesInYear;
     })
-    .reduce((curr, acc) => curr + acc);
+    .reduce((curr, acc) => curr + acc, 0);
 
   return (
     <SafeArea>
@@ -165,7 +192,7 @@ const Statistics = () => {
                 <View>{labelData()}</View>
               </View>
             </View>
-            <FilterByPeriodOfTime week={_byWeek} month={_byMonth} year={_byYear} />
+            <FilterByPeriodOfTime week={_byWeek} data={data} month={_byMonth} year={_byYear} />
             <View style={styles.barContainer}>
               <View style={styles.barContainerLabel}>
                 <View style={styles.barLabelIcon}>
